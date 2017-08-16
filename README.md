@@ -1,4 +1,4 @@
-![Image](./icons/icon.png =512x512)
+![Image](./icons/icon.png =512*512)
 
 # Material UI Browser
 
