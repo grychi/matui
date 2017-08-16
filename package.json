@@ -1,0 +1,30 @@
+{
+  "name": "matui",
+  "version": "1.0.0",
+  "description": "Material UI Browser",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=icons/icon.ico --prune=true --out=release-builds",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=icons/icon.ico --prune=true --out=release-builds --version-string.CompanyName=Matui --version-string.FileDescription=Matui --version-string.ProductName=\"Matui\"",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=icons/icon.ico --prune=true --out=release-builds"
+  },
+  "repository": "",
+  "keywords": [
+    "Material",
+    "Browser"
+  ],
+  "author": "therealgary@github",
+  "license": "GNU GPLv3",
+  "devDependencies": {
+    "electron": "~1.6.2",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0"
+  },
+  "dependencies": {
+    "electron": "^1.6.2",
+    "favicon-getter": "^1.1.3",
+    "jsonfile": "^2.4.0",
+    "uuid": "^3.0.1"
+  }
+}

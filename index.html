@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Browser</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script>
+    if (typeof module === 'object') { window.module = module; module = undefined; }
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript" src="vanilla.js"></script>
+  <script>
+    if (window.module) module = window.module;
+  </script>
+</head>
+
+<body id="browser">
+  <nav id="navigation">
+    <div id="menu" onclick="toggleBrowserMenu()">
+      <i class="material-icons">menu</i>
+    </div>
+    <div id="back">
+      <i class="material-icons">arrow_back</i>
+    </div>
+    <div id="omnibox">
+      <input type="text" id="url">
+    </div>
+    <div id="tabs">
+      <!--
+      <i class="material-icons">cancel</i>
+      <i class="material-icons">note</i>
+    -->
+      <i class="material-icons">add_circle</i>
+    </div>
+    <div id="window-control">
+      <div id="min-btn">
+        <i class="material-icons applicationRemove">remove</i>
+      </div>
+      <div id="max-btn">
+        <i class="material-icons applicationRemove">add</i>
+      </div>
+      <div id="close-btn">
+        <i class="material-icons applicationRemove">close</i>
+      </div>
+    </div>
+  </nav>
+
+  <div id="views">
+    <webview id="view" class="page" src="http://www.google.com/" autosize="on"></webview>
+  </div>
+
+  <div id="browser-menu" style="display:none;">
+    <div id="quick-access">
+      <div id="forward">
+        <i class="material-icons">arrow_forward</i>
+      </div>
+      <div id="refresh">
+        <i class="material-icons">refresh</i>
+      </div>
+      <div id="home">
+        <i class="material-icons">home</i>
+      </div>
+      <div id="fave">
+        <i class="material-icons">star</i>
+      </div>
+    </div>
+
+    <div class="menu-break"></div>
+
+    <div id="private" class="menu-single-item">
+      <i class="material-icons">visibility</i>
+      <div class="menu-description">Private Window</div>
+    </div>
+
+    <div class="menu-break"></div>
+
+    <div id="list" class="menu-single-item">
+      <i class="material-icons">list</i>
+      <div class="menu-description">Bookmarks</div>
+    </div>
+    <div id="downloads" class="menu-single-item">
+      <i class="material-icons">file_download</i>
+      <div class="menu-description">Downloads</div>
+    </div>
+    <div id="history" class="menu-single-item">
+      <i class="material-icons">history</i>
+      <div class="menu-description">History</div>
+    </div>
+
+    <div class="menu-break"></div>
+
+    <div id="find" class="menu-single-item">
+      <i class="material-icons">search</i>
+      <div class="menu-description">Find on page</div>
+    </div>
+    <div id="print" class="menu-single-item">
+      <i class="material-icons">print</i>
+      <div class="menu-description">Print</div>
+    </div>
+    <div id="fullscreen" class="menu-single-item">
+      <i class="material-icons">fullscreen</i>
+      <div class="menu-description">Fullscreen</div>
+    </div>
+
+    <div class="menu-break"></div>
+
+    <div id="zoom">
+      <div id="zoom-out">
+        <i class="material-icons">zoom_out</i>
+      </div>
+      <div class="menu-div"></div>
+      <div id="zoom-level-pos">
+        <div id="zoom-level">100%</div>
+      </div>
+      <div class="menu-div"></div>
+      <div id="zoom-in">
+        <i class="material-icons">zoom_in</i>
+      </div>
+    </div>
+
+    <div class="menu-break"></div>
+
+    <div id="content-edit">
+      <div id="cut">
+        <i class="material-icons">content_cut</i>
+      </div>
+      <div class="menu-div"></div>
+      <div id="copy">
+        <i class="material-icons">content_copy</i>
+      </div>
+      <div class="menu-div"></div>
+      <div id="paste">
+        <i class="material-icons">content_paste</i>
+      </div>
+    </div>
+
+    <div class="menu-break"></div>
+
+    <div id="console" class="menu-single-item">
+      <i class="material-icons">code</i>
+      <div class="menu-description">Developer Tools</div>
+    </div>
+    <div id="settings" class="menu-single-item">
+      <i class="material-icons">settings</i>
+      <div class="menu-description">Settings</div>
+    </div>
+    <div id="feedback" class="menu-single-item">
+      <i class="material-icons">feedback</i>
+      <div class="menu-description">Feedback</div>
+    </div>
+    <div id="about" class="menu-single-item">
+      <i class="material-icons">info</i>
+      <div class="menu-description">About</div>
+    </div>
+
+    <div class="menu-break"></div>
+
+    <div id="exit" class="menu-single-item">
+      <i class="material-icons">power_settings_new</i>
+      <div class="menu-description">Exit</div>
+    </div>
+
+  </div>
+
+  <div id="fave-popup" data-state="closed">
+  </div>
+
+  <script>
+    require('./renderer.js')
+  </script>
+
+</html>
