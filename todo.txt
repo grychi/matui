@@ -6,3 +6,5 @@ history
 downloads
 settings
 about
+
+open with

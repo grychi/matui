@@ -9,7 +9,7 @@ let mainWindow
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1000, height: 800, minHeight: 300, minWidth: 400, frame: false, titleBarStyle: 'hidden'
+    width: 1024, height: 768, minHeight: 300, minWidth: 400, frame: false, titleBarStyle: 'hidden'
   })
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),

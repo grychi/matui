@@ -31,6 +31,7 @@ function forwardView() {
 
 function updateURL(event) {
     var searchEngines = ['https://www.google.com/search?&q=', 'https://www.bing.com/search?q='];
+    var searchAPI = ['https://api.bing.com/osjson.aspx?query='];
     if (event.keyCode === 13) {
         omni.blur();
         let val = omni.value.trim();
