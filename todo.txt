@@ -7,4 +7,7 @@ downloads
 settings
 about
 
-open with
+remember window size/ position
+open with browser parameter
+
+minify js and css files

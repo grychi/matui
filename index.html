@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
   <title>Matui Browser</title>
   <link rel="stylesheet" href="css/main.css">
   <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
@@ -20,7 +21,7 @@
 
 <body id="browser">
   <nav id="navigation">
-    <div id="menu" onclick="toggleBrowserMenu()">
+    <div id="menu">
       <i class="material-icons">menu</i>
     </div>
     <div id="back">
@@ -70,6 +71,7 @@
       </div>
       <div id="fave">
         <i class="material-icons">star</i>
+        <!--<i class="material-icons">star_border</i>-->
       </div>
     </div>
 
@@ -77,7 +79,7 @@
 
     <div id="private" class="menu-single-item">
       <i class="material-icons">visibility</i>
-      <div class="menu-description">Private Window</div>
+      <div class="menu-description">Private window</div>
     </div>
     <div id="block" class="menu-single-item">
       <i class="material-icons">security</i>
@@ -133,6 +135,18 @@
 
     <div class="menu-break"></div>
 
+    <div id="theme" class="menu-single-item">
+      <i class="material-icons">brightness_5</i>
+      <!--<i class="material-icons">brightness_2</i>-->
+      <div class="menu-description">Light theme</div>
+    </div>
+    <div id="pinned" class="menu-single-item">
+      <i class="material-icons">stars</i>
+      <div class="menu-description">Pin to top</div>
+    </div>
+
+    <div class="menu-break"></div>
+
     <div id="content-edit">
       <div id="cut">
         <i class="material-icons">content_cut</i>
@@ -151,7 +165,7 @@
 
     <div id="console" class="menu-single-item">
       <i class="material-icons">code</i>
-      <div class="menu-description">Developer Tools</div>
+      <div class="menu-description">Developer tools</div>
     </div>
     <div id="settings" class="menu-single-item">
       <i class="material-icons">settings</i>
