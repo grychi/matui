@@ -12,3 +12,5 @@ remember window size/ position
 open with browser parameter
 
 minify js and css files
+
+font offline

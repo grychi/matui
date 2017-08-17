@@ -51,10 +51,11 @@ Bookmark.prototype.ELEMENT = function () {
             history = ById('history'),
             finder = ById('find'),
             printer = ById('print'),
-            fullscreen = ById('fullscreen'),
             zoomIn = ById('zoom-in'),
             zoomOut = ById('zoom-out'),
             zoomShow = ById('zoom-level'),
+            fullscreen = ById('fullscreen'),
+            pinner = ById('pinned'),
             theme = ById('theme'),
             contCut = ById('cut'),
             contCopy = ById('copy'),
@@ -228,6 +229,20 @@ Bookmark.prototype.ELEMENT = function () {
         printer.addEventListener('click', printView);
         zoomIn.addEventListener('click', zoomInView);
         zoomOut.addEventListener('click', zoomOutView);
+        pinner.addEventListener("click", function (e) {
+            const window = remote.getCurrentWindow();
+            let state = pinner.getAttribute('data-state');
+            console.log(state);
+            if (state === 'notPinned') {
+                pinner.innerHTML = '<i class="material-icons">radio_button_checked</i><div class="menu-description">Unpin browser</div>';
+                window.setAlwaysOnTop(true);
+                pinner.setAttribute('data-state', 'isPinned');
+            } else {
+                pinner.innerHTML = '<i class="material-icons">radio_button_unchecked</i><div class="menu-description">Pin browser</div>';
+                window.setAlwaysOnTop(false);
+                pinner.setAttribute('data-state', 'notPinned');
+            }
+        });
         contCut.addEventListener('click', contCutView);
         contCopy.addEventListener('click', contCopyView);
         contPaste.addEventListener('click', contPasteView);

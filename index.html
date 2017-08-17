@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <title>Matui Browser</title>
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/main.min.css">
   <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -32,15 +32,26 @@
       <!--<i class="material-icons">lock_open</i>-->
     </div>
     <div id="omnibox">
-      <input type="text" id="url">
+      <input type="text" id="url" spellcheck="false">
     </div>
     <div id="tabs">
-      <!--
-      <i class="material-icons">note</i>
-      <i class="material-icons">cancel</i>
-    -->
-      <i class="material-icons">add_circle</i>
+      <div class="oneTab activeTab">
+        <div class="tabIcon"></div>
+        <div class="closeTab"></div>
+      </div>
+      <div class="oneTab">
+        <i class="material-icons">note</i>
+        <div class="closeTab"></div>
+      </div>
+      <div class="oneTab">
+        <i class="material-icons">note</i>
+        <div class="closeTab"></div>
+      </div>
+      <div id="newTab">
+        <i class="material-icons">add_circle</i>
+      </div>
     </div>
+
     <div id="window-control">
       <div id="min-btn">
         <i class="material-icons applicationRemove">remove</i>
@@ -112,10 +123,6 @@
       <i class="material-icons">print</i>
       <div class="menu-description">Print</div>
     </div>
-    <div id="fullscreen" class="menu-single-item">
-      <i class="material-icons">fullscreen</i>
-      <div class="menu-description">Fullscreen</div>
-    </div>
 
     <div class="menu-break"></div>
 
@@ -135,14 +142,18 @@
 
     <div class="menu-break"></div>
 
+    <div id="fullscreen" class="menu-single-item">
+      <i class="material-icons">fullscreen</i>
+      <div class="menu-description">Fullscreen</div>
+    </div>
+    <div id="pinned" data-state="notPinned" class="menu-single-item">
+      <i class="material-icons">radio_button_unchecked</i>
+      <div class="menu-description">Pin browser</div>
+    </div>
     <div id="theme" class="menu-single-item">
       <i class="material-icons">brightness_5</i>
       <!--<i class="material-icons">brightness_2</i>-->
       <div class="menu-description">Light theme</div>
-    </div>
-    <div id="pinned" class="menu-single-item">
-      <i class="material-icons">stars</i>
-      <div class="menu-description">Pin to top</div>
     </div>
 
     <div class="menu-break"></div>

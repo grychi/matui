@@ -154,9 +154,10 @@ body {
     --secondary-color: #ECEFF1;
     --tertiary-color: #607D8B;
     --quaternary-color: #CFD8DC;
+    user-select: none;
 }
 #navigation * {
-    -webkit-app-region: no-drag;    
+    -webkit-app-region: no-drag;
 }
 .common-buttons,
 #navigation div {
@@ -170,7 +171,6 @@ body {
 #navigation i {
     border-radius: 0.2em;
     cursor: default;
-    user-select: none;
 }
 #navigation i:hover, #quick-access i:hover, .menu-single-item:hover, #zoom i:hover, #content-edit i:hover {
     background-color: var(--quaternary-color);
@@ -194,18 +194,18 @@ body {
     width: calc(50vw - 8em);
     max-width: 30vw;
     color: var(--primary-color);
+    margin-top: 0.2em;
 }
 #navigation #omnibox input {
     border: none;
     outline: none;
-    height: 1.5em;
+    height: 1.2em;
+    font-size: 1em;
     width: 100%;
-    border-radius: 2px;
-    padding-left: 1px;
+    padding: 0;
     background-color: transparent;
     color: var(--primary-color);
     font-family: 'Catamaran';
-    user-select: text;
 }
 #navigation #omnibox input:focus, #navigation #omnibox input:active {
     border-bottom: 2px solid var(--primary-color);
@@ -245,7 +245,55 @@ body {
     float: left;
     background: var(--secondary-color);
 }
-
+#navigation #tabs {
+    padding: 0;
+    margin-left: 1.5em;
+    height: 2em;
+    max-width: calc(50vw - 8em);
+    overflow: hidden;
+    -webkit-app-region: drag;
+}
+#tabs * {
+    -webkit-app-region: no-drag;
+}
+.oneTab {
+    border-radius: 0.2em;
+    position: relative;
+    display: inline-block;
+    height: 1.5em;
+    width: 2.5em;
+    margin-right: 0.2em;
+}
+.oneTab:hover {
+    background-color: var(--quaternary-color);
+}
+.closeTab {
+    position: absolute;
+    top: 0.5em;
+    right: 0.2em;
+    height: 0.5em;
+    width: 0.5em;
+    border-radius: 0.5em;
+    background-color: var(--quaternary-color);
+}
+.activeTab .closeTab {
+    background-color: var(--secondary-color);
+}
+.closeTab:hover {
+    background-color: #ff5252;
+}
+#tabs .tabIcon {
+    position: relative;
+    height: 1.5em;
+    width: 1.5em;
+    padding: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(https://www.google.com/favicon.ico);
+}
+.activeTab {
+    background-color: var(--quaternary-color);
+}
 #navigation #window-control {
     margin-top: -0.2em;
     float: right;
@@ -277,14 +325,12 @@ webview {
     width: 16em;
     background-color: var(--secondary-color);
     height: calc(100vh - 2.8em);
-    user-select: none;
     overflow-y: scroll;
 }
 #browser-menu * {
     display: inline-block;
     padding: 0.5em;
     cursor: default;
-    user-select: none;
 }
 #browser-menu i {
     font-size: 1.5em;

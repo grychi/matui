@@ -18,7 +18,6 @@ function createWindow() {
   }))
 
   // mainWindow.webContents.openDevTools()
-  // mainWindow.setAlwaysOnTop(true);
   mainWindow.setMenu(null);
 
   mainWindow.on('closed', function () {
