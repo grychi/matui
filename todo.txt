@@ -7,6 +7,7 @@ downloads
 settings
 about
 
+keyboard shortcuts
 remember window size/ position
 open with browser parameter
 

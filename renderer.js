@@ -15,6 +15,9 @@ var Bookmark = function (id, url, faviconUrl, title) {
     this.title = title;
 };
 
+var currentZoom = 6;
+var zooms = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300];
+
 Bookmark.prototype.ELEMENT = function () {
     var a_tag = document.createElement('a');
     a_tag.href = this.url;
@@ -47,9 +50,11 @@ Bookmark.prototype.ELEMENT = function () {
             downloads = ById('downloads'),
             history = ById('history'),
             finder = ById('find'),
+            printer = ById('print'),
             fullscreen = ById('fullscreen'),
             zoomIn = ById('zoom-in'),
             zoomOut = ById('zoom-out'),
+            zoomShow = ById('zoom-level'),
             theme = ById('theme'),
             contCut = ById('cut'),
             contCopy = ById('copy'),
@@ -80,6 +85,40 @@ Bookmark.prototype.ELEMENT = function () {
         }
         function forwardView() {
             view.goForward();
+        }
+
+        function goHomeView() {
+            view.loadURL('https://www.google.com/');
+        }
+        function printView() {
+            view.print();
+        }
+        function zoomInView() {
+            if (currentZoom < zooms.length - 1) {
+                view.setZoomFactor(zooms[++currentZoom] / 100);
+                updateZoom();
+            }
+        }
+        function zoomOutView() {
+            if (currentZoom > 0) {
+                view.setZoomFactor(zooms[--currentZoom] / 100);
+                updateZoom();
+            }
+        }
+        function updateZoom() {
+            var currentZoomLevel = "";
+            currentZoomLevel += zooms[currentZoom];
+            currentZoomLevel += "%";
+            zoomShow.innerHTML = currentZoomLevel;
+        }
+        function contCutView() {
+            view.cut();
+        }
+        function contCopyView() {
+            view.copy();
+        }
+        function contPasteView() {
+            view.pasteAndMatchStyle();
         }
 
         function updateURL(event) {
@@ -183,8 +222,15 @@ Bookmark.prototype.ELEMENT = function () {
         omni.addEventListener('keydown', updateURL);
         forward.addEventListener('click', forwardView);
         refresh.addEventListener('click', reloadView);
+        home.addEventListener('click', goHomeView);
         fave.addEventListener('click', addBookmark);
         list.addEventListener('click', openPopUp);
+        printer.addEventListener('click', printView);
+        zoomIn.addEventListener('click', zoomInView);
+        zoomOut.addEventListener('click', zoomOutView);
+        contCut.addEventListener('click', contCutView);
+        contCopy.addEventListener('click', contCopyView);
+        contPaste.addEventListener('click', contPasteView);
         dev.addEventListener('click', handleDevtools);
         quit.addEventListener("click", function (e) {
             const window = remote.getCurrentWindow();
