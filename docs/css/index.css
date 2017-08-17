@@ -54,6 +54,12 @@ body {
     margin: auto;
     box-shadow: 0 4px 8px -0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
+#presenting a {	
+    text-decoration: none;
+    position: absolute;
+    bottom: -2em;
+    left: calc(50% - 6em);
+}
 #leftArr {
     float: left;
     margin-left: -4em;
