@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <title>Matui Browser</title>
-  <link rel="stylesheet" href="css/main.min.css">
+  <link rel="stylesheet" href="css/main.css">
   <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -35,20 +35,12 @@
       <input type="text" id="url" spellcheck="false">
     </div>
     <div id="tabs">
+      <div id="newTab">
+        <i class="material-icons">add_circle</i>
+      </div>
       <div class="oneTab activeTab">
         <div class="tabIcon"></div>
         <div class="closeTab"></div>
-      </div>
-      <div class="oneTab">
-        <i class="material-icons">note</i>
-        <div class="closeTab"></div>
-      </div>
-      <div class="oneTab">
-        <i class="material-icons">note</i>
-        <div class="closeTab"></div>
-      </div>
-      <div id="newTab">
-        <i class="material-icons">add_circle</i>
       </div>
     </div>
 
@@ -66,7 +58,7 @@
   </nav>
 
   <div id="views">
-    <webview id="view" class="page" src="http://www.google.com/" autosize="on"></webview>
+    <webview id="view-0" class="page" src="http://www.google.com/" autosize="on"></webview>
   </div>
 
   <div id="browser-menu" style="display:none;">
@@ -200,7 +192,10 @@
 
   </div>
 
-  <div id="fave-popup" data-state="closed">
+  <div id="suggestions" class="colors-plz">
+  </div>
+
+  <div id="fave-popup" class="colors-plz" data-state="closed">
   </div>
 
   <script>

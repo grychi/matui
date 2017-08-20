@@ -6,8 +6,14 @@
       local('MaterialIcons-Regular'),
       url(../fonts/MaterialIcons-Regular.woff) format('woff'),
       url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
-  }
-  .material-icons {
+}
+@font-face {
+    font-family: 'Catamaran';
+    src: local('Catamaran'),
+      local('Catamaran-Regular'),
+      url(../fonts/Catamaran-Regular.ttf) format('truetype');
+}
+.material-icons {
     font-family: 'Material Icons';
     font-weight: normal;
     font-style: normal;
@@ -20,7 +26,7 @@
     white-space: nowrap;
     direction: ltr;
     text-rendering: optimizeLegibility;
-  }
+}
 html,
 body,
 div,
@@ -149,7 +155,7 @@ body {
     display: block
 }
 
-#navigation, #navigation *, #browser-menu, #browser-menu * {
+#navigation, #navigation *, #browser-menu, #browser-menu *, .colors-plz {
     --primary-color: #37474F;
     --secondary-color: #ECEFF1;
     --tertiary-color: #607D8B;
@@ -210,46 +216,11 @@ body {
 #navigation #omnibox input:focus, #navigation #omnibox input:active {
     border-bottom: 2px solid var(--primary-color);
 }
-#navigation #fave-popup {
-    display: none;
-    position: fixed;
-    right: 1px;
-    color: var(--secondary-color);
-    top: 2em;
-    width: 180px;
-    height: 200px;
-    z-index: 20;
-    padding: 1px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    background: var(--primary-color);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
-}
-#navigation #fave-popup .link {
-    width: 100%;
-    height: 3em;
-    color: var(--secondary-color);
-    font-family: monospace;
-    font-size: 1em;
-    text-decoration: none;
-    text-align: left;
-    display: block;
-    line-height: 2;
-}
-#navigation #fave-popup .link .favicon {
-    width: 3em;
-    height: 3em;
-    float: left;
-    background: var(--secondary-color);
-}
 #navigation #tabs {
     padding: 0;
-    margin-left: 1.5em;
+    margin-left: 1em;
     height: 2em;
-    max-width: calc(50vw - 8em);
+    max-width: calc(50vw - 6.5em);
     overflow: hidden;
     -webkit-app-region: drag;
 }
@@ -324,6 +295,7 @@ webview {
     top: 2.8em;
     width: 16em;
     background-color: var(--secondary-color);
+    border-right: solid 1px var(--quaternary-color);
     height: calc(100vh - 2.8em);
     overflow-y: scroll;
 }
@@ -393,4 +365,51 @@ webview {
 }
 ::-webkit-scrollbar-corner {
     background-color: transparent;
+}
+
+#suggestions {
+    display: none;
+    z-index: 3;
+    min-height: 2.5em;
+    background-color: var(--secondary-color);
+    border-bottom: solid 1px var(--quaternary-color);
+}
+
+#fave-popup {
+    font-family: 'Catamaran';
+    display: none;
+    position: fixed;
+    top: 3.5em;
+    right: 1.5em;
+    color: var(--primary-color);
+    background: var(--secondary-color);
+    width: 16em;
+    min-height: 2.5em;
+    max-height: calc(100vh - 4em);
+    z-index: 2;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+#fave-popup .link {
+    width: 100%;
+    height: 2em;
+    color: var(--primary-color);
+    font-size: 1em;
+    text-decoration: none;
+    text-align: left;
+    display: block;
+    padding: 0.5em;
+    line-height: 2;
+}
+#fave-popup .link:hover {
+    background-color: var(--quaternary-color);
+}
+#fave-popup .link .favicon {
+    width: 2em;
+    height: 2em;
+    margin-right: 0.5em;
+    float: left;
 }

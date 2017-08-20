@@ -15,8 +15,11 @@ var Bookmark = function (id, url, faviconUrl, title) {
     this.title = title;
 };
 
+//needs to load from user setings
 var currentZoom = 6;
 var zooms = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300];
+
+var currentView = 'view-0';
 
 Bookmark.prototype.ELEMENT = function () {
     var a_tag = document.createElement('a');
@@ -40,6 +43,8 @@ Bookmark.prototype.ELEMENT = function () {
             back = ById('back'),
             protocol = ById('protocol'),
             omni = ById('url'),
+            tabs = ById('tabs'),
+            newTab = ById('newTab'),
             forward = ById('forward'),
             refresh = ById('refresh'),
             home = ById('home'),
@@ -66,7 +71,35 @@ Bookmark.prototype.ELEMENT = function () {
             about = ById('about'),
             quit = ById('exit'),
             popup = ById('fave-popup'),
-            view = ById('view');
+            views = ById('views'),
+            view = ById(currentView);
+
+        function updateCurrentView() {
+            view = ById(currentView);
+            updateNav();
+        }
+
+        function newView() {
+            var allViews = document.getElementsByTagName('webview');
+            for (var i = 0; i < allViews.length; i++) {
+                allViews[i].style.visibility = "hidden";
+            }
+            //Def needs to change
+            var newViewID = allViews.length;
+            var newViewHTML = '<webview id="view-' + newViewID + '" class="page" src="file:///' + __dirname + '/pages/new.html' + '" autosize="on"></webview>';
+            var newTabHTML = `
+            <div class="oneTab">
+                <i class="material-icons">note</i>
+                <div class="closeTab"></div>
+            </div>`;
+            views.insertAdjacentHTML('beforeend', newViewHTML);
+            tabs.insertAdjacentHTML('beforeend', newTabHTML);
+            currentView = 'view-' + newViewID;
+            updateCurrentView();
+        }
+        function closeView() {
+            console.log('closeView');
+        }
 
         function toggleBrowserMenu() {
             var menu = document.getElementById("browser-menu");
@@ -87,7 +120,7 @@ Bookmark.prototype.ELEMENT = function () {
         function forwardView() {
             view.goForward();
         }
-
+        //needs to change
         function goHomeView() {
             view.loadURL('https://www.google.com/');
         }
@@ -153,7 +186,7 @@ Bookmark.prototype.ELEMENT = function () {
                     jsonfile.writeFile(bookmarks, curr, function (err) {
                     })
                 })
-            })
+            });
         }
         function openPopUp(event) {
             let state = popup.getAttribute('data-state');
@@ -219,6 +252,7 @@ Bookmark.prototype.ELEMENT = function () {
             window.close();
         });
         menu.addEventListener('click', toggleBrowserMenu);
+        newTab.addEventListener('click', newView);
         back.addEventListener('click', backView);
         omni.addEventListener('keydown', updateURL);
         forward.addEventListener('click', forwardView);
@@ -234,11 +268,11 @@ Bookmark.prototype.ELEMENT = function () {
             let state = pinner.getAttribute('data-state');
             console.log(state);
             if (state === 'notPinned') {
-                pinner.innerHTML = '<i class="material-icons">radio_button_checked</i><div class="menu-description">Unpin browser</div>';
+                pinner.innerHTML = '<i class="material-icons">radio_button_checked</i> <div class="menu-description">Unpin browser</div>';
                 window.setAlwaysOnTop(true);
                 pinner.setAttribute('data-state', 'isPinned');
             } else {
-                pinner.innerHTML = '<i class="material-icons">radio_button_unchecked</i><div class="menu-description">Pin browser</div>';
+                pinner.innerHTML = '<i class="material-icons">radio_button_unchecked</i> <div class="menu-description">Pin browser</div>';
                 window.setAlwaysOnTop(false);
                 pinner.setAttribute('data-state', 'notPinned');
             }
