@@ -1,0 +1,32 @@
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Material Icons'),
+      local('MaterialIcons-Regular'),
+      url(../fonts/MaterialIcons-Regular.woff) format('woff'),
+      url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
+}
+@font-face {
+    font-family: 'Catamaran';
+    src: local('Catamaran'),
+      local('Catamaran-Regular'),
+      url(../fonts/Catamaran-Regular.ttf) format('truetype');
+}
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    text-rendering: optimizeLegibility;
+}
+* {
+    font-family: 'Catamaran';
+}

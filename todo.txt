@@ -13,4 +13,4 @@ open with browser parameter
 
 minify js and css files
 
-font offline
+ui animations
