@@ -71,13 +71,10 @@ Bookmark.prototype.ELEMENT = function () {
             about = ById('about'),
             quit = ById('exit'),
             popup = ById('fave-popup'),
+            bmarks = ById('bmarks'),
             views = ById('views'),
             view = ById(currentView);
 
-        function updateCurrentView() {
-            view = ById(currentView);
-            updateNav();
-        }
         function newView(how) {
             var allViews = document.getElementsByTagName('webview');
             for (var i = 0; i < allViews.length; i++) {
@@ -92,22 +89,30 @@ Bookmark.prototype.ELEMENT = function () {
             var newViewHTML = '<webview id="view-' + newViewID + '" class="page" src="' + how + '" useragent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 matui/1.0.0" autosize="on"></webview>';
             var newTabHTML = `
             <div id="tab-` + newViewID + `" class="oneTab">
-                <i class="material-icons">note</i>
+                <div id="icon-` + newViewID + `" class="icon-insert">
+                    <i class="material-icons">note</i>
+                </div>
                 <div id="` + newViewID + `"class="closeTab"></div>
             </div>`;
             views.insertAdjacentHTML('beforeend', newViewHTML);
             tabs.insertAdjacentHTML('beforeend', newTabHTML);
             currentView = 'view-' + newViewID;
+
             document.getElementById(newViewID).addEventListener('click', function (e) {
                 var removeView = document.getElementById('view-' + newViewID);
                 views.removeChild(removeView);
                 var removeTab = document.getElementById('tab-' + newViewID);
                 tabs.removeChild(removeTab);
             });
-            updateCurrentView();
+
+            initNewView();
+        }
+        function initNewView() {
+            activeTab();
         }
         function activeTab(n) {
-            console.log("set active tab");
+            view = ById(currentView);
+            updateNav();
         }
 
         function toggleBrowserMenu() {
@@ -200,7 +205,7 @@ Bookmark.prototype.ELEMENT = function () {
         function openPopUp(event) {
             let state = popup.getAttribute('data-state');
             if (state === 'closed') {
-                popup.innerHTML = '';
+                bmarks.innerHTML = '';
                 jsonfile.readFile(bookmarks, function (err, obj) {
                     if (obj.length !== 0) {
                         for (var i = 0; i < obj.length; i++) {
@@ -210,7 +215,7 @@ Bookmark.prototype.ELEMENT = function () {
                             let title = obj[i].title;
                             let bookmark = new Bookmark(id, url, icon, title);
                             let el = bookmark.ELEMENT();
-                            popup.appendChild(el);
+                            bmarks.appendChild(el);
                         }
                     }
                     popup.style.display = 'block';
@@ -316,7 +321,27 @@ Bookmark.prototype.ELEMENT = function () {
             window.close();
         });
         popup.addEventListener('click', handleUrl);
+
         view.addEventListener('did-finish-load', updateNav);
+        view.addEventListener('did-frame-finish-load', updateNav);
+        view.addEventListener('page-title-updated', function (e) {
+            document.title = e.title;
+        });
+        
+        view.addEventListener('new-window', function (e) {
+            const protocol = require('url').parse(e.url).protocol
+            if (protocol === 'http:' || protocol === 'https:') {
+                newView(e.url);
+            }
+            updateNav();
+        });
+        view.addEventListener('page-favicon-updated', function (e) {
+            if (e.favicons.length > 0) {
+                var iconUrl = e.favicons[0];
+                var id = view.id.substring(5, view.id.length);
+                document.getElementById('icon-' + id).innerHTML = '<div style="background-image: url(' + iconUrl + ')" class="tabIcon"></div>';
+            }
+        });
     };
     document.onreadystatechange = function () {
         if (document.readyState == "complete") {

@@ -151,7 +151,7 @@ body {
 #navigation {
     width: 100%;
     height: 2.8em;
-    background: var(--secondary-color);
+    background-color: var(--secondary-color);
     display: block;
     top: 0;
     left: 0;
@@ -226,7 +226,10 @@ body {
     padding: 0;
     background-size: cover;
     background-repeat: no-repeat;
-    background-image: url(https://www.google.com/favicon.ico);
+}
+#tabs .icon-insert {
+    padding: 0;
+    margin: 0;
 }
 .activeTab {
     background-color: var(--quaternary-color);
@@ -347,16 +350,19 @@ webview {
     top: 3.5em;
     right: 1.5em;
     color: var(--primary-color);
-    background: var(--secondary-color);
+    background-color: var(--secondary-color);
     width: 16em;
-    min-height: 2.5em;
-    max-height: calc(100vh - 4em);
     z-index: 2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+#fave-popup #bmarks {
+    min-height: 2.5em;
+    max-height: calc(100vh - 8em);
+    white-space: nowrap;
+    margin-bottom: 3em;
     overflow-y: auto;
     overflow-x: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 #fave-popup .link {
     width: 100%;
@@ -377,4 +383,18 @@ webview {
     height: 2em;
     margin-right: 0.5em;
     float: left;
+}
+#fave-popup #fave-btns {
+    cursor: default;
+    border-top: solid 1px var(--quaternary-color);
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    bottom: 0;
+    height: 3em;
+    line-height: 3;
+    background-color: var(--secondary-color);
+}
+#fave-popup #fave-btns:hover {
+    background-color: var(--quaternary-color);
 }

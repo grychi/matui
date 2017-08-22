@@ -7,9 +7,10 @@
   <title>Matui Browser</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/all.css">
+  <!--
   <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+  
   <script>
     if (typeof module === 'object') { window.module = module; module = undefined; }
   </script>
@@ -18,6 +19,7 @@
   <script>
     if (window.module) module = window.module;
   </script>
+-->
 </head>
 
 <body id="browser">
@@ -39,9 +41,13 @@
       <div id="newTab">
         <i class="material-icons">add_circle</i>
       </div>
-      <!--
+    </div>
+    <!--
       <div class="oneTab activeTab">
-        <div class="tabIcon"></div>
+        <div class="icon-insert">
+          <i class="material-icons">autorenew</i>
+          <div class="tabIcon"></div>
+        </div>
         <div class="closeTab"></div>
       </div>
     -->
@@ -192,10 +198,14 @@
 
   </div>
 
-  <div id="suggestions" class="colors-plz">
-  </div>
+  <div id="suggestions"></div>
 
-  <div id="fave-popup" class="colors-plz" data-state="closed">
+  <div id="fave-popup" data-state="closed">
+    <div id="bmarks"></div>
+    <div id="fave-btns">
+      Open bookmark manager
+      <!--<i class="material-icons">cancel</i>-->
+    </div>
   </div>
 
   <script>
