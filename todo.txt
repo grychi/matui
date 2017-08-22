@@ -14,3 +14,9 @@ open with browser parameter
 minify js and css files
 
 ui animations
+
+loading from user data
+- tabs from previous session
+- populate bookmarks / history / downloads
+- theme (light/dark)
+- set zoom

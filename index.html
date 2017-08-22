@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width">
   <title>Matui Browser</title>
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/all.css">
   <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -38,10 +39,12 @@
       <div id="newTab">
         <i class="material-icons">add_circle</i>
       </div>
+      <!--
       <div class="oneTab activeTab">
         <div class="tabIcon"></div>
         <div class="closeTab"></div>
       </div>
+    -->
     </div>
 
     <div id="window-control">
@@ -57,9 +60,7 @@
     </div>
   </nav>
 
-  <div id="views">
-    <webview id="view-0" class="page" src="http://www.google.com/" autosize="on"></webview>
-  </div>
+  <div id="views"></div>
 
   <div id="browser-menu" style="display:none;">
     <div id="quick-access">
@@ -142,9 +143,8 @@
       <i class="material-icons">radio_button_unchecked</i>
       <div class="menu-description">Pin browser</div>
     </div>
-    <div id="theme" class="menu-single-item">
+    <div id="theme" class="menu-single-item" data-state="light">
       <i class="material-icons">brightness_5</i>
-      <!--<i class="material-icons">brightness_2</i>-->
       <div class="menu-description">Light theme</div>
     </div>
 

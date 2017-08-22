@@ -19,7 +19,7 @@ var Bookmark = function (id, url, faviconUrl, title) {
 var currentZoom = 6;
 var zooms = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300];
 
-var currentView = 'view-0';
+var currentView;
 
 Bookmark.prototype.ELEMENT = function () {
     var a_tag = document.createElement('a');
@@ -78,27 +78,36 @@ Bookmark.prototype.ELEMENT = function () {
             view = ById(currentView);
             updateNav();
         }
-
-        function newView() {
+        function newView(how) {
             var allViews = document.getElementsByTagName('webview');
             for (var i = 0; i < allViews.length; i++) {
                 allViews[i].style.visibility = "hidden";
             }
-            //Def needs to change
-            var newViewID = allViews.length;
-            var newViewHTML = '<webview id="view-' + newViewID + '" class="page" src="file:///' + __dirname + '/pages/new.html' + '" autosize="on"></webview>';
+            //or other pages
+            if (typeof how != 'string') {
+                how = 'file:///' + __dirname + '/pages/new.html';
+            }
+            //Might need to change
+            var newViewID = uuid.v4();
+            var newViewHTML = '<webview id="view-' + newViewID + '" class="page" src="' + how + '" useragent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 matui/1.0.0" autosize="on"></webview>';
             var newTabHTML = `
-            <div class="oneTab">
+            <div id="tab-` + newViewID + `" class="oneTab">
                 <i class="material-icons">note</i>
-                <div class="closeTab"></div>
+                <div id="` + newViewID + `"class="closeTab"></div>
             </div>`;
             views.insertAdjacentHTML('beforeend', newViewHTML);
             tabs.insertAdjacentHTML('beforeend', newTabHTML);
             currentView = 'view-' + newViewID;
+            document.getElementById(newViewID).addEventListener('click', function (e) {
+                var removeView = document.getElementById('view-' + newViewID);
+                views.removeChild(removeView);
+                var removeTab = document.getElementById('tab-' + newViewID);
+                tabs.removeChild(removeTab);
+            });
             updateCurrentView();
         }
-        function closeView() {
-            console.log('closeView');
+        function activeTab(n) {
+            console.log("set active tab");
         }
 
         function toggleBrowserMenu() {
@@ -154,9 +163,9 @@ Bookmark.prototype.ELEMENT = function () {
         function contPasteView() {
             view.pasteAndMatchStyle();
         }
-
         function updateURL(event) {
-            var searchEngines = ['https://www.google.com/search?&q=', 'https://www.bing.com/search?q='];
+            //should change to json file
+            var searchEngines = ['https://www.google.com/search?&q=', 'https://www.bing.com/search?q=', 'https://www.ecosia.org/search?q=', 'https://duckduckgo.com/?q=', 'http://www.wolframalpha.com/input/?i=', 'https://search.aol.com/aol/search?q='];
             var searchAPI = ['https://api.bing.com/osjson.aspx?query='];
             if (event.keyCode === 13) {
                 omni.blur();
@@ -213,6 +222,19 @@ Bookmark.prototype.ELEMENT = function () {
             }
         }
 
+        function toggleTheme(e) {
+            let state = theme.getAttribute('data-state');
+            if (state === 'light') {
+                theme.innerHTML = '<i class="material-icons">brightness_2</i> <div class="menu-description">Dark theme</div>';
+                document.body.className += "dark-theme";
+                theme.setAttribute('data-state', 'dark');
+            } else {
+                theme.innerHTML = '<i class="material-icons">brightness_5</i> <div class="menu-description">Light theme</div>';
+                document.body.className = "";
+                theme.setAttribute('data-state', 'light');
+            }
+        }
+
         function handleUrl(event) {
             if (event.target.className === 'link') {
                 event.preventDefault();
@@ -232,9 +254,17 @@ Bookmark.prototype.ELEMENT = function () {
         }
 
         function updateNav(event) {
-            omni.value = view.src;
+            var matuiDir = 'file:///' + __dirname + '/pages/';
+            matuiDir = matuiDir.split('\\').join('/');
+            if (view.src.includes(matuiDir)) {
+                omni.value = 'matui://' + view.src.substring(matuiDir.length, view.src.length - 5);
+            }
+            else {
+                omni.value = view.src;
+            }
         }
-
+        //load from user settings
+        newView("https://www.google.com/");
         minBtn.addEventListener("click", function (e) {
             const window = remote.getCurrentWindow();
             window.minimize();
@@ -263,10 +293,9 @@ Bookmark.prototype.ELEMENT = function () {
         printer.addEventListener('click', printView);
         zoomIn.addEventListener('click', zoomInView);
         zoomOut.addEventListener('click', zoomOutView);
-        pinner.addEventListener("click", function (e) {
+        pinner.addEventListener('click', function (e) {
             const window = remote.getCurrentWindow();
             let state = pinner.getAttribute('data-state');
-            console.log(state);
             if (state === 'notPinned') {
                 pinner.innerHTML = '<i class="material-icons">radio_button_checked</i> <div class="menu-description">Unpin browser</div>';
                 window.setAlwaysOnTop(true);
@@ -277,6 +306,7 @@ Bookmark.prototype.ELEMENT = function () {
                 pinner.setAttribute('data-state', 'notPinned');
             }
         });
+        theme.addEventListener('click', toggleTheme);
         contCut.addEventListener('click', contCutView);
         contCopy.addEventListener('click', contCopyView);
         contPaste.addEventListener('click', contPasteView);

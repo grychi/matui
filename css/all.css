@@ -27,6 +27,16 @@
     direction: ltr;
     text-rendering: optimizeLegibility;
 }
-* {
+html {
+    --primary-color: #37474F;
+    --secondary-color: #ECEFF1;
+    --tertiary-color: #607D8B;
+    --quaternary-color: #CFD8DC;
     font-family: 'Catamaran';
+}
+.dark-theme {
+    --primary-color: #CFD8DC;
+    --secondary-color: #37474f;
+    --tertiary-color: #ECEFF1;
+    --quaternary-color: #607D8B;
 }

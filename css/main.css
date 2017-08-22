@@ -1,32 +1,3 @@
-@font-face {
-    font-family: 'Material Icons';
-    font-style: normal;
-    font-weight: 400;
-    src: local('Material Icons'),
-      local('MaterialIcons-Regular'),
-      url(../fonts/MaterialIcons-Regular.woff) format('woff'),
-      url(../fonts/MaterialIcons-Regular.ttf) format('truetype');
-}
-@font-face {
-    font-family: 'Catamaran';
-    src: local('Catamaran'),
-      local('Catamaran-Regular'),
-      url(../fonts/Catamaran-Regular.ttf) format('truetype');
-}
-.material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-style: normal;
-    font-size: 24px;
-    display: inline-block;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-    text-rendering: optimizeLegibility;
-}
 html,
 body,
 div,
@@ -155,11 +126,7 @@ body {
     display: block
 }
 
-#navigation, #navigation *, #browser-menu, #browser-menu *, .colors-plz {
-    --primary-color: #37474F;
-    --secondary-color: #ECEFF1;
-    --tertiary-color: #607D8B;
-    --quaternary-color: #CFD8DC;
+#navigation, #navigation *, #browser-menu, #browser-menu * {
     user-select: none;
 }
 #navigation * {
@@ -211,7 +178,6 @@ body {
     padding: 0;
     background-color: transparent;
     color: var(--primary-color);
-    font-family: 'Catamaran';
 }
 #navigation #omnibox input:focus, #navigation #omnibox input:active {
     border-bottom: 2px solid var(--primary-color);
@@ -294,6 +260,7 @@ webview {
     position: fixed;
     top: 2.8em;
     width: 16em;
+    color: var(--primary-color);
     background-color: var(--secondary-color);
     border-right: solid 1px var(--quaternary-color);
     height: calc(100vh - 2.8em);
@@ -328,7 +295,6 @@ webview {
     border-radius: 0.2em;
 }
 #browser-menu div {
-    font-family: 'Catamaran';
     position: relative;
 }
 .menu-description {
@@ -376,7 +342,6 @@ webview {
 }
 
 #fave-popup {
-    font-family: 'Catamaran';
     display: none;
     position: fixed;
     top: 3.5em;
