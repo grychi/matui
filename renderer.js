@@ -231,7 +231,7 @@ Bookmark.prototype.ELEMENT = function () {
         function updateURL(event) {
             //should change to json file
             var searchEngines = ['https://www.google.com/search?&q=', 'https://www.bing.com/search?q=', 'https://www.ecosia.org/search?q=', 'https://duckduckgo.com/?q=', 'http://www.wolframalpha.com/input/?i=', 'https://search.aol.com/aol/search?q='];
-            var searchAPI = ['https://api.bing.com/osjson.aspx?query='];
+            var searchAPI = ['https://api.bing.com/osjson.aspx?query=', 'http://api.duckduckgo.com/?q=xyz&format=json'];
             if (event.keyCode === 13) {
                 omni.blur();
                 let val = omni.value.trim();

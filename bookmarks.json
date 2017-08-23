@@ -120,6 +120,12 @@
         "title": "Twitter"
     },
     {
+        "id": "fccf0af0-879a-11e7-b279-f37f96b9e712",
+        "url": "https://vimeo.com/",
+        "icon": "https://f.vimeocdn.com/images_v6/favicon.ico",
+        "title": "Vimeo"
+    },
+    {
         "id": "2a281e80-85fa-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.wikipedia.org/",
         "icon": "https://www.wikipedia.org/static/favicon/wikipedia.ico",
