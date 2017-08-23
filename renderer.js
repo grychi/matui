@@ -20,6 +20,7 @@ var currentZoom = 6;
 var zooms = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300];
 
 var currentView;
+var listViews = [];
 
 Bookmark.prototype.ELEMENT = function () {
     var a_tag = document.createElement('a');
@@ -76,16 +77,13 @@ Bookmark.prototype.ELEMENT = function () {
             view = ById(currentView);
 
         function newView(how) {
-            var allViews = document.getElementsByTagName('webview');
-            for (var i = 0; i < allViews.length; i++) {
-                allViews[i].style.visibility = "hidden";
-            }
             //or other pages
             if (typeof how != 'string') {
                 how = 'file:///' + __dirname + '/pages/new.html';
             }
             //Might need to change
             var newViewID = uuid.v4();
+            listViews.push(newViewID);
             var newViewHTML = '<webview id="view-' + newViewID + '" class="page" src="' + how + '" useragent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 matui/1.0.0" autosize="on"></webview>';
             var newTabHTML = `
             <div id="tab-` + newViewID + `" class="oneTab">
@@ -97,22 +95,84 @@ Bookmark.prototype.ELEMENT = function () {
             views.insertAdjacentHTML('beforeend', newViewHTML);
             tabs.insertAdjacentHTML('beforeend', newTabHTML);
             currentView = 'view-' + newViewID;
-
+            view = ById(currentView);
+            document.getElementById('tab-' + newViewID).addEventListener('click', activeTab);
             document.getElementById(newViewID).addEventListener('click', function (e) {
-                var removeView = document.getElementById('view-' + newViewID);
-                views.removeChild(removeView);
-                var removeTab = document.getElementById('tab-' + newViewID);
-                tabs.removeChild(removeTab);
+                e.stopPropagation();
+                if (listViews.length == 1) {
+                    const window = remote.getCurrentWindow();
+                    window.close();
+                }
+                else {
+                    var removeView = document.getElementById('view-' + newViewID);
+                    views.removeChild(removeView);
+                    var removeTab = document.getElementById('tab-' + newViewID);
+                    tabs.removeChild(removeTab);
+                    var index = listViews.indexOf(newViewID);
+                    listViews.splice(index, 1);
+                    activeTab(listViews[listViews.length - 1]);
+                }
             });
 
             initNewView();
         }
         function initNewView() {
+            var view = document.getElementById('view-' + listViews[listViews.length - 1]);
+            view.addEventListener('new-window', function (e) {
+                const protocol = require('url').parse(e.url).protocol
+                if (protocol === 'http:' || protocol === 'https:') {
+                    newView(e.url);
+                }
+                updateNav();
+            });
+            view.addEventListener('page-favicon-updated', function (e) {
+                var id = view.id.substring(5, view.id.length);
+                if (e.favicons.length > 0) {
+                    var iconUrl = e.favicons[e.favicons.length - 1];
+                    document.getElementById('icon-' + id).innerHTML = '<div style="background-image: url(' + iconUrl + ')" class="tabIcon"></div>';
+                }
+                else {
+                    document.getElementById('icon-' + id).innerHTML = '<i class="material-icons">note</i>';
+                }
+            });
             activeTab();
         }
-        function activeTab(n) {
-            view = ById(currentView);
-            updateNav();
+        function activeTab(tabClicked) {
+            if (tabClicked != null || this.id == null) {
+                var activeTabs = document.getElementsByClassName('activeTab');
+                for (var i = 0; i < activeTabs.length; i++) {
+                    var unactiveTabID = activeTabs[i].id.substring(4, activeTabs[i].id.length);
+                    var unactiveView = document.getElementById('view-' + unactiveTabID);
+                    unactiveView.style.visibility = "hidden";
+                    unactiveView.removeEventListener('did-finish-load', updateNav);
+                    unactiveView.removeEventListener('did-frame-finish-load', updateNav);
+                    unactiveView.removeEventListener('page-title-updated', updateTitle);
+                    var tabClass = activeTabs[i].className.substring(0, activeTabs[i].className.length - 10);
+                    activeTabs[i].className = tabClass;
+                }
+                //clicking tab
+                if (this.id != null) {
+                    this.className += ' activeTab';
+                    var clickedID = this.id.substring(4, this.id.length);
+                    document.getElementById('view-' + clickedID).style.visibility = 'visible';
+                    currentView = 'view-' + clickedID;
+                    view = ById(currentView);
+                }
+                //opening new tab
+                else if (tabClicked == null) {
+                    document.getElementById('tab-' + listViews[listViews.length - 1]).className += ' activeTab';
+                }
+                //closing active tab
+                else if (activeTabs.length == 0) {
+                    let prevTabID = listViews[listViews.length - 1];
+                    document.getElementById('tab-' + prevTabID).className += ' activeTab';
+                    document.getElementById('view-' + prevTabID).style.visibility = 'visible';
+                }
+                view.addEventListener('did-finish-load', updateNav);
+                view.addEventListener('did-frame-finish-load', updateNav);
+                view.addEventListener('page-title-updated', updateTitle);
+                updateNav();
+            }
         }
 
         function toggleBrowserMenu() {
@@ -180,6 +240,9 @@ Bookmark.prototype.ELEMENT = function () {
                 if (https === 'https://' || http === 'http://') {
                     view.loadURL(val);
                 }
+                else if (https == 'matui://') {
+                    view.loadURL('file:///' + __dirname + '/pages/' + val.substring(8, val.length) + '.html');
+                }
                 //todo: fix criterias
                 else if (!val.includes('.') || val.includes(' ')) {
                     view.loadURL(searchEngines[0] + val);
@@ -213,6 +276,10 @@ Bookmark.prototype.ELEMENT = function () {
                             let icon = obj[i].icon;
                             let id = obj[i].id;
                             let title = obj[i].title;
+                            if (title.length > 20) {
+                                title = title.substring(0, 20);
+                                title += ' ...';
+                            }
                             let bookmark = new Bookmark(id, url, icon, title);
                             let el = bookmark.ELEMENT();
                             bmarks.appendChild(el);
@@ -268,6 +335,10 @@ Bookmark.prototype.ELEMENT = function () {
                 omni.value = view.src;
             }
         }
+        function updateTitle(e) {
+            document.title = e.title;
+        }
+
         //load from user settings
         newView("https://www.google.com/");
         minBtn.addEventListener("click", function (e) {
@@ -321,27 +392,6 @@ Bookmark.prototype.ELEMENT = function () {
             window.close();
         });
         popup.addEventListener('click', handleUrl);
-
-        view.addEventListener('did-finish-load', updateNav);
-        view.addEventListener('did-frame-finish-load', updateNav);
-        view.addEventListener('page-title-updated', function (e) {
-            document.title = e.title;
-        });
-        
-        view.addEventListener('new-window', function (e) {
-            const protocol = require('url').parse(e.url).protocol
-            if (protocol === 'http:' || protocol === 'https:') {
-                newView(e.url);
-            }
-            updateNav();
-        });
-        view.addEventListener('page-favicon-updated', function (e) {
-            if (e.favicons.length > 0) {
-                var iconUrl = e.favicons[0];
-                var id = view.id.substring(5, view.id.length);
-                document.getElementById('icon-' + id).innerHTML = '<div style="background-image: url(' + iconUrl + ')" class="tabIcon"></div>';
-            }
-        });
     };
     document.onreadystatechange = function () {
         if (document.readyState == "complete") {
