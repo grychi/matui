@@ -15,7 +15,7 @@
     "Browser"
   ],
   "author": "therealgary@github",
-  "license": "LGPL-3.0",
+  "license": "MIT",
   "devDependencies": {
     "electron": "~1.6.2",
     "gulp": "^3.9.1",
