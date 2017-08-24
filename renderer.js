@@ -79,7 +79,15 @@ Bookmark.prototype.ELEMENT = function () {
         function newView(how) {
             //or other pages
             if (typeof how != 'string') {
-                how = 'file:///' + __dirname + '/pages/new.html';
+                if (how == 48067) {
+                    how = 'file:///' + __dirname + '/pages/about.html';
+                }
+                else if (how == 53771) {
+                    how = 'file:///' + __dirname + '/pages/new.html';
+                }
+                else {
+                    how = 'file:///' + __dirname + '/pages/new.html';
+                }
             }
             //Might need to change
             var newViewID = uuid.v4();
@@ -339,6 +347,17 @@ Bookmark.prototype.ELEMENT = function () {
             document.title = e.title;
         }
 
+        //should find matui://
+        function openSettings() {
+            newView(53771);
+        }
+        function openFeedback() {
+            newView(93368);
+        }
+        function openAbout() {
+            newView(48067);
+        }
+
         //load from user settings
         newView("https://www.google.com/");
         minBtn.addEventListener("click", function (e) {
@@ -387,6 +406,7 @@ Bookmark.prototype.ELEMENT = function () {
         contCopy.addEventListener('click', contCopyView);
         contPaste.addEventListener('click', contPasteView);
         dev.addEventListener('click', handleDevtools);
+        about.addEventListener('click', openAbout);
         quit.addEventListener("click", function (e) {
             const window = remote.getCurrentWindow();
             window.close();

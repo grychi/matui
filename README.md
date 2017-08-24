@@ -4,7 +4,7 @@
 
 **Simple minimalistic web browser made with Electron**
 
-A basic cross platform web browser with minimalistic design principles and material user interface:
+A basic cross platform web browser with material design user interface:
 
 - More screen space
 - Simple tabs
