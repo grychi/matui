@@ -138,7 +138,6 @@ body {
     display: block;
     padding: 0.2em;
     font-size: 1em;
-    color: var(--primary-color);
 }
 .common-buttons i,
 #navigation i {
@@ -162,25 +161,35 @@ body {
     -webkit-app-region: drag;
 }
 #navigation #omnibox {
+    position: relative;
     float: left;
     display: block;
     width: calc(50vw - 8em);
     max-width: 30vw;
-    color: var(--primary-color);
     margin-top: 0.2em;
 }
 #navigation #omnibox input {
     border: none;
     outline: none;
-    height: 1.2em;
-    font-size: 1em;
-    width: 100%;
     padding: 0;
+    height: 1.2em;
+    width: 100%;
+    font-size: 1em;
     background-color: transparent;
-    color: var(--primary-color);
 }
 #navigation #omnibox input:focus, #navigation #omnibox input:active {
     border-bottom: 2px solid var(--primary-color);
+}
+#navigation #omnibox #viewTitle {
+    display: none;
+    position: absolute;
+    top: 0.1em;
+    padding: 0.2em 0;
+    width: 100%;
+    height: 1em;
+    font-size: 1em;
+    background-color: var(--secondary-color);
+    -webkit-app-region: drag;
 }
 #navigation #tabs {
     padding: 0;
@@ -263,7 +272,6 @@ webview {
     position: fixed;
     top: 2.8em;
     width: 16em;
-    color: var(--primary-color);
     background-color: var(--secondary-color);
     border-right: solid 1px var(--quaternary-color);
     height: calc(100vh - 2.8em);
@@ -277,7 +285,6 @@ webview {
 #browser-menu i {
     font-size: 1.5em;
     padding: 0;
-    color: var(--primary-color);
 }
 #browser-menu .menu-break {
     height: 1px;
@@ -349,7 +356,6 @@ webview {
     position: fixed;
     top: 3.5em;
     right: 1.5em;
-    color: var(--primary-color);
     background-color: var(--secondary-color);
     width: 16em;
     z-index: 2;
@@ -366,7 +372,6 @@ webview {
 }
 #fave-popup .link {
     width: calc(100% - 1em);
-    color: var(--primary-color);
     text-decoration: none;
     text-align: left;
     display: block;

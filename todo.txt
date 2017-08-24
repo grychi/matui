@@ -20,3 +20,9 @@ loading from user data
 - populate bookmarks / history / downloads
 - theme (light/dark)
 - set zoom
+
+protection 
+- block ads
+- block trackers
+- block all pop-ups
+- block all scripts

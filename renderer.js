@@ -2,6 +2,8 @@ var ById = function (id) {
     return document.getElementById(id);
 };
 
+var matuiDir = 'file:///' + __dirname + '/pages/';
+
 var jsonfile = require('jsonfile');
 var favicon = require('favicon-getter').default;
 var path = require('path');
@@ -44,6 +46,7 @@ Bookmark.prototype.ELEMENT = function () {
             back = ById('back'),
             protocol = ById('protocol'),
             omni = ById('url'),
+            viewTitle = ById('viewTitle'),
             tabs = ById('tabs'),
             newTab = ById('newTab'),
             forward = ById('forward'),
@@ -76,18 +79,14 @@ Bookmark.prototype.ELEMENT = function () {
             views = ById('views'),
             view = ById(currentView);
 
+        function closeMatui() {
+            const window = remote.getCurrentWindow();
+            window.close();
+        }
+
         function newView(how) {
-            //or other pages
             if (typeof how != 'string') {
-                if (how == 48067) {
-                    how = 'file:///' + __dirname + '/pages/about.html';
-                }
-                else if (how == 53771) {
-                    how = 'file:///' + __dirname + '/pages/new.html';
-                }
-                else {
-                    how = 'file:///' + __dirname + '/pages/new.html';
-                }
+                how = matuiDir + 'new.html';
             }
             //Might need to change
             var newViewID = uuid.v4();
@@ -108,8 +107,7 @@ Bookmark.prototype.ELEMENT = function () {
             document.getElementById(newViewID).addEventListener('click', function (e) {
                 e.stopPropagation();
                 if (listViews.length == 1) {
-                    const window = remote.getCurrentWindow();
-                    window.close();
+                    closeMatui();
                 }
                 else {
                     var removeView = document.getElementById('view-' + newViewID);
@@ -165,6 +163,7 @@ Bookmark.prototype.ELEMENT = function () {
                     document.getElementById('view-' + clickedID).style.visibility = 'visible';
                     currentView = 'view-' + clickedID;
                     view = ById(currentView);
+                    updateTitle();
                 }
                 //opening new tab
                 else if (tabClicked == null) {
@@ -175,6 +174,9 @@ Bookmark.prototype.ELEMENT = function () {
                     let prevTabID = listViews[listViews.length - 1];
                     document.getElementById('tab-' + prevTabID).className += ' activeTab';
                     document.getElementById('view-' + prevTabID).style.visibility = 'visible';
+                    currentView = 'view-' + prevTabID;
+                    view = ById(currentView);
+                    updateTitle();
                 }
                 view.addEventListener('did-finish-load', updateNav);
                 view.addEventListener('did-frame-finish-load', updateNav);
@@ -202,7 +204,7 @@ Bookmark.prototype.ELEMENT = function () {
         function forwardView() {
             view.goForward();
         }
-        //needs to change
+        //needs load from settings
         function goHomeView() {
             view.loadURL('https://www.google.com/');
         }
@@ -223,8 +225,7 @@ Bookmark.prototype.ELEMENT = function () {
         }
         function updateZoom() {
             var currentZoomLevel = "";
-            currentZoomLevel += zooms[currentZoom];
-            currentZoomLevel += "%";
+            currentZoomLevel += zooms[currentZoom] + "%";
             zoomShow.innerHTML = currentZoomLevel;
         }
         function contCutView() {
@@ -249,7 +250,7 @@ Bookmark.prototype.ELEMENT = function () {
                     view.loadURL(val);
                 }
                 else if (https == 'matui://') {
-                    view.loadURL('file:///' + __dirname + '/pages/' + val.substring(8, val.length) + '.html');
+                    view.loadURL(matuiDir + val.substring(8, val.length) + '.html');
                 }
                 //todo: fix criterias
                 else if (!val.includes('.') || val.includes(' ')) {
@@ -259,6 +260,16 @@ Bookmark.prototype.ELEMENT = function () {
                     view.loadURL('http://' + val);
                 }
             }
+        }
+        function handleOmni(e) {
+            omni.focus();
+            omni.select();
+        }
+        function hideViewTitle(e) {
+            //viewTitle.style.visibility = 'hidden';
+        }
+        function showViewTitle(e) {
+            //viewTitle.style.visibility = 'visible';
         }
 
         function addBookmark() {
@@ -334,7 +345,6 @@ Bookmark.prototype.ELEMENT = function () {
         }
 
         function updateNav(event) {
-            var matuiDir = 'file:///' + __dirname + '/pages/';
             matuiDir = matuiDir.split('\\').join('/');
             if (view.src.includes(matuiDir)) {
                 omni.value = 'matui://' + view.src.substring(matuiDir.length, view.src.length - 5);
@@ -344,18 +354,26 @@ Bookmark.prototype.ELEMENT = function () {
             }
         }
         function updateTitle(e) {
-            document.title = e.title;
+            var currentTitle;
+            if (e) {
+                currentTitle = e.title;
+            }
+            else {
+                currentTitle = view.getTitle();
+            }
+            document.title = currentTitle;
+            viewTitle.innerHTML = currentTitle;
         }
 
         //should find matui://
         function openSettings() {
-            newView(53771);
+            newView(matuiDir + 'settings.html');
         }
         function openFeedback() {
-            newView(93368);
+            newView(matuiDir + 'feedback.html');
         }
         function openAbout() {
-            newView(48067);
+            newView(matuiDir + 'about.html');
         }
 
         //load from user settings
@@ -372,14 +390,14 @@ Bookmark.prototype.ELEMENT = function () {
                 window.unmaximize();
             }
         });
-        closeBtn.addEventListener("click", function (e) {
-            const window = remote.getCurrentWindow();
-            window.close();
-        });
+        closeBtn.addEventListener("click", closeMatui);
         menu.addEventListener('click', toggleBrowserMenu);
         newTab.addEventListener('click', newView);
         back.addEventListener('click', backView);
         omni.addEventListener('keydown', updateURL);
+        viewTitle.addEventListener('mouseover', hideViewTitle);
+        viewTitle.addEventListener('mouseleave', showViewTitle);
+        viewTitle.addEventListener('click', handleOmni);
         forward.addEventListener('click', forwardView);
         refresh.addEventListener('click', reloadView);
         home.addEventListener('click', goHomeView);
@@ -407,10 +425,7 @@ Bookmark.prototype.ELEMENT = function () {
         contPaste.addEventListener('click', contPasteView);
         dev.addEventListener('click', handleDevtools);
         about.addEventListener('click', openAbout);
-        quit.addEventListener("click", function (e) {
-            const window = remote.getCurrentWindow();
-            window.close();
-        });
+        quit.addEventListener("click", closeMatui);
         popup.addEventListener('click', handleUrl);
     };
     document.onreadystatechange = function () {

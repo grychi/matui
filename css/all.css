@@ -27,6 +27,10 @@
     direction: ltr;
     text-rendering: optimizeLegibility;
 }
+* {
+    font-family: 'Catamaran';
+    color: var(--primary-color);
+}
 html {
     --primary-color: #37474F;
     --secondary-color: #ECEFF1;
