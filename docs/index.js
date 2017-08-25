@@ -29,21 +29,21 @@ $('document').ready(function () {
         });
 
     $('#leftArr').click(function () {
+        clearTimeout(slideTimer);
         $('#presenting').css("background-image", "url('" + screenshots[Math.abs(--currentSlide % 3)] + "')");
     });
     $('#rightArr').click(function () {
+        clearTimeout(slideTimer);
         nextSlide();
     });
     autoSlide();
 });
 function clearFootText() {
     $("#footText").html("");
-    clearTimeout(slideTimer);
     slideTimer = setTimeout(autoSlide, 5000);
 }
 function nextSlide() {
     $('#presenting').css("background-image", "url('" + screenshots[Math.abs(++currentSlide % 3)] + "')");
-    clearTimeout(slideTimer);
     slideTimer = setTimeout(autoSlide, 5000);
 }
 function autoSlide() {
