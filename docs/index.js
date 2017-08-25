@@ -30,23 +30,23 @@ $('document').ready(function () {
 
     $('#leftArr').click(function () {
         clearTimeout(slideTimer);
-        $('#presenting').css("background-image", "url('" + screenshots[Math.abs(--currentSlide % 3)] + "')");
+        currentSlide -= 2;
+        $('#presenting').css("background-image", "url('" + screenshots[Math.abs(currentSlide % 3)] + "')");
+        autoSlide();
     });
     $('#rightArr').click(function () {
         clearTimeout(slideTimer);
-        nextSlide();
+        autoSlide();
     });
-    autoSlide();
 });
 function clearFootText() {
     $("#footText").html("");
-    slideTimer = setTimeout(autoSlide, 5000);
 }
 function nextSlide() {
     $('#presenting').css("background-image", "url('" + screenshots[Math.abs(++currentSlide % 3)] + "')");
-    slideTimer = setTimeout(autoSlide, 5000);
 }
 function autoSlide() {
     nextSlide();
+    console.log("lol");
     slideTimer = setTimeout(autoSlide, 5000);
 }
