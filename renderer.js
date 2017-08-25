@@ -76,6 +76,7 @@ Bookmark.prototype.ELEMENT = function () {
             quit = ById('exit'),
             popup = ById('fave-popup'),
             bmarks = ById('bmarks'),
+            faveManage = ById('fave-manage'),
             views = ById('views'),
             view = ById(currentView);
 
@@ -312,6 +313,15 @@ Bookmark.prototype.ELEMENT = function () {
                 popup.setAttribute('data-state', 'closed');
             }
         }
+        function handleUrl(event) {
+            if (event.target.className === 'link') {
+                event.preventDefault();
+                newView(event.target.href);
+            } else if (event.target.className === 'favicon') {
+                event.preventDefault();
+                newView(event.target.parentElement.href);
+            }
+        }
 
         function toggleTheme(e) {
             let state = theme.getAttribute('data-state');
@@ -323,16 +333,6 @@ Bookmark.prototype.ELEMENT = function () {
                 theme.innerHTML = '<i class="material-icons">brightness_5</i> <div class="menu-description">Light theme</div>';
                 document.body.className = "";
                 theme.setAttribute('data-state', 'light');
-            }
-        }
-
-        function handleUrl(event) {
-            if (event.target.className === 'link') {
-                event.preventDefault();
-                view.loadURL(event.target.href);
-            } else if (event.target.className === 'favicon') {
-                event.preventDefault();
-                view.loadURL(event.target.parentElement.href);
             }
         }
 
@@ -366,6 +366,15 @@ Bookmark.prototype.ELEMENT = function () {
         }
 
         //should find matui://
+        function openBookmarks() {
+            newView(matuiDir + 'bookmarks.html');
+        }
+        function openDownloads() {
+            newView(matuiDir + 'downloads.html');
+        }
+        function openHistory() {
+            newView(matuiDir + 'history.html');
+        }
         function openSettings() {
             newView(matuiDir + 'settings.html');
         }
@@ -403,6 +412,8 @@ Bookmark.prototype.ELEMENT = function () {
         home.addEventListener('click', goHomeView);
         fave.addEventListener('click', addBookmark);
         list.addEventListener('click', openPopUp);
+        downloads.addEventListener('click', openDownloads);
+        history.addEventListener('click', openHistory);
         printer.addEventListener('click', printView);
         zoomIn.addEventListener('click', zoomInView);
         zoomOut.addEventListener('click', zoomOutView);
@@ -424,9 +435,12 @@ Bookmark.prototype.ELEMENT = function () {
         contCopy.addEventListener('click', contCopyView);
         contPaste.addEventListener('click', contPasteView);
         dev.addEventListener('click', handleDevtools);
+        settings.addEventListener('click', openSettings);
+        feedback.addEventListener('click', openFeedback);
         about.addEventListener('click', openAbout);
         quit.addEventListener("click", closeMatui);
         popup.addEventListener('click', handleUrl);
+        faveManage.addEventListener('click', openBookmarks);
     };
     document.onreadystatechange = function () {
         if (document.readyState == "complete") {

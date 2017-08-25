@@ -1,0 +1,21 @@
+#dateTime {
+    text-align: center;
+    line-height: 1.5;
+}
+#time {
+    font-size: 800%;
+}
+#date {
+    font-size: 200%;
+}
+#message {
+    font-size: 150%;
+}
+textarea {
+    margin: 0;
+    padding: 0.5em;
+    height: 100%;
+    width: calc(100% - 1em);
+    resize: none;
+    font-size: 1em;
+}

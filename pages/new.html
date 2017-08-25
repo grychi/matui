@@ -5,29 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../css/all.css">
+    <link rel="stylesheet" href="../css/new.css">
+    <script type="text/javascript" src="../js/new.js"></script>
     <title>New Tab</title>
 </head>
 
 <body>
-    <div id="contA">
-        <div id="date">
-            Date
-        </div>
-        <div id="time">
-            TIme
-        </div>
-        <div id="message">
-            Message
-        </div>
-        <div id="notes">
-            Notes
-        </div>
+    <div id="matTop">
+        <h1>New Tab</h1>
     </div>
-    <div id="contB">
-        <div id="visited">
+    <div id="matCont">
+        <div id="dateTime" class="matCard">
+            <div id="time">
+                Time
+            </div>
+            <div id="date">
+                Date
+            </div>
+            <div id="message">
+                Message
+            </div>
+        </div>
+        <div id="notes" class="matCard">
+            <textarea placeholder="Write notes here..."></textarea>
+        </div>
+        <div id="visited" class="matCard">
             Recently visited
         </div>
-        <div id="bmarks">
+        <div id="bmarks" class="matCard">
             Bookmarks
         </div>
     </div>

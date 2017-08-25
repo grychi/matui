@@ -26,3 +26,8 @@ protection
 - block trackers
 - block all pop-ups
 - block all scripts
+
+fix
+- empty favicon
+- draggable tabs
+- address bar
