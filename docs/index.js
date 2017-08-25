@@ -38,10 +38,12 @@ $('document').ready(function () {
 });
 function clearFootText() {
     $("#footText").html("");
+    clearTimeout(slideTimer);
     slideTimer = setTimeout(autoSlide, 5000);
 }
 function nextSlide() {
     $('#presenting').css("background-image", "url('" + screenshots[Math.abs(++currentSlide % 3)] + "')");
+    clearTimeout(slideTimer);
     slideTimer = setTimeout(autoSlide, 5000);
 }
 function autoSlide() {
