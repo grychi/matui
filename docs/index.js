@@ -1,5 +1,6 @@
 var screenshots = ["screenshot.png", "screenshot2.png", "screenshot3.png"];
 var currentSlide = -1;
+var slideTimer = setTimeout(autoSlide, 5000);
 
 $('document').ready(function () {
     $("#footAbout").hover(function () {
@@ -37,11 +38,13 @@ $('document').ready(function () {
 });
 function clearFootText() {
     $("#footText").html("");
+    slideTimer = setTimeout(autoSlide, 5000);
 }
 function nextSlide() {
     $('#presenting').css("background-image", "url('" + screenshots[Math.abs(++currentSlide % 3)] + "')");
+    slideTimer = setTimeout(autoSlide, 5000);
 }
 function autoSlide() {
     nextSlide();
-    var slideTimer = setTimeout(autoSlide, 5000);
+    slideTimer = setTimeout(autoSlide, 5000);
 }
