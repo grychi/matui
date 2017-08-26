@@ -31,6 +31,7 @@
     margin-bottom: 2em;
 }
 textarea {
+    background-color: transparent;
     margin: 0;
     padding: 0.5em;
     height: calc(100% - 1em);

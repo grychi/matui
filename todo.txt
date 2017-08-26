@@ -1,18 +1,14 @@
-new page
-connection errors
-tabs
+connection error pages
 bookmarks
 history
 downloads
 settings
-about
 
 keyboard shortcuts
 remember window size/ position
 open with browser parameter
 
 minify js and css files
-
 ui animations
 
 loading from user data
@@ -24,4 +20,6 @@ loading from user data
 fix
 - empty favicon
 - draggable tabs
-- address bar
+- empty address bar
+- overlay
+- json (bookmarks/ search)

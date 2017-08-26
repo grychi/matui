@@ -24,6 +24,8 @@ var zooms = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300];
 var currentView;
 var listViews = [];
 
+var searchAPI = ['https://api.bing.com/osjson.aspx?query=', 'http://api.duckduckgo.com/?q=xyz&format=json'];
+
 Bookmark.prototype.ELEMENT = function () {
     var a_tag = document.createElement('a');
     a_tag.href = this.url;
@@ -243,7 +245,6 @@ Bookmark.prototype.ELEMENT = function () {
         function updateURL(event) {
             //should change to json file
             var searchEngines = ['https://www.google.com/search?&q=', 'https://www.bing.com/search?q=', 'https://www.ecosia.org/search?q=', 'https://duckduckgo.com/?q=', 'http://www.wolframalpha.com/input/?i=', 'https://search.aol.com/aol/search?q='];
-            var searchAPI = ['https://api.bing.com/osjson.aspx?query=', 'http://api.duckduckgo.com/?q=xyz&format=json'];
             if (event.keyCode === 13) {
                 omni.blur();
                 let val = omni.value.trim();
@@ -268,12 +269,6 @@ Bookmark.prototype.ELEMENT = function () {
             omni.focus();
             omni.select();
         }
-        function hideViewTitle(e) {
-            //viewTitle.style.visibility = 'hidden';
-        }
-        function showViewTitle(e) {
-            //viewTitle.style.visibility = 'visible';
-        }
 
         function addBookmark() {
             let url = view.src;
@@ -282,9 +277,8 @@ Bookmark.prototype.ELEMENT = function () {
                 let book = new Bookmark(uuid.v1(), url, fav, title);
                 jsonfile.readFile(bookmarks, function (err, curr) {
                     curr.push(book);
-                    jsonfile.writeFile(bookmarks, curr, function (err) {
-                    })
-                })
+                    jsonfile.writeFile(bookmarks, curr, function (err) { });
+                });
             });
         }
         function openPopUp(event) {
@@ -344,12 +338,14 @@ Bookmark.prototype.ELEMENT = function () {
             }
         }
         function updateNav(event) {
-            matuiDir = matuiDir.split('\\').join('/');
-            if (view.src.includes(matuiDir)) {
-                omni.value = 'matui://' + view.src.substring(matuiDir.length, view.src.length - 5);
-            }
-            else {
-                omni.value = view.src;
+            if (document.activeElement != omni) {
+                matuiDir = matuiDir.split('\\').join('/');
+                if (view.src.includes(matuiDir)) {
+                    omni.value = 'matui://' + view.src.substring(matuiDir.length, view.src.length - 5);
+                }
+                else {
+                    omni.value = view.src;
+                }
             }
         }
         function updateTitle(e) {
@@ -367,24 +363,57 @@ Bookmark.prototype.ELEMENT = function () {
             console.log('overlay-clicked');
         }
 
-        //should find matui://
-        function openBookmarks() {
-            newView(matuiDir + 'bookmarks.html');
+        /* in the works */
+        function showSuggestionItem(item) {
+            console.log(item);
         }
-        function openDownloads() {
-            newView(matuiDir + 'downloads.html');
+        function executeQuery() {
+            var q = omni.value.trim();
+            if (q == "") {
+                /* show default */
+                return;
+            }
+            suggestions.innerHTML = '';
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    xmlhttpResults = JSON.parse(this.responseText);
+                    if (xmlhttpResults.itemListElement[1]) {
+                        var firstItem = xmlhttpResults.itemListElement[1][0];
+                        var secondItem = xmlhttpResults.itemListElement[1][1];
+                        showSuggestionItem(firstItem);
+                        showSuggestionItm(secondItem);
+                    }
+                }
+            };
+            xmlhttp.open('GET', searchAPI[0] + q, true);
+            xmlhttp.send();
         }
-        function openHistory() {
-            newView(matuiDir + 'history.html');
-        }
-        function openSettings() {
-            newView(matuiDir + 'settings.html');
-        }
-        function openFeedback() {
-            newView(matuiDir + 'feedback.html');
-        }
-        function openAbout() {
-            newView(matuiDir + 'about.html');
+
+        function openMatuiPage(which) {
+            //should find matui:// tab
+            switch (which) {
+                case 'bookmarks':
+                    newView(matuiDir + 'bookmarks.html');
+                    break;
+                case 'downloads':
+                    newView(matuiDir + 'downloads.html');
+                    break;
+                case 'history':
+                    newView(matuiDir + 'history.html');
+                    break;
+                case 'settings':
+                    newView(matuiDir + 'settings.html');
+                    break;
+                case 'feedback':
+                    newView(matuiDir + 'feedback.html');
+                    break;
+                case 'about':
+                    newView(matuiDir + 'about.html');
+                    break;
+                default:
+                    newView();
+            }
         }
 
         //load from user settings
@@ -406,16 +435,14 @@ Bookmark.prototype.ELEMENT = function () {
         newTab.addEventListener('click', newView);
         back.addEventListener('click', backView);
         omni.addEventListener('keydown', updateURL);
-        viewTitle.addEventListener('mouseover', hideViewTitle);
-        viewTitle.addEventListener('mouseleave', showViewTitle);
         viewTitle.addEventListener('click', handleOmni);
         forward.addEventListener('click', forwardView);
         refresh.addEventListener('click', reloadView);
         home.addEventListener('click', goHomeView);
         fave.addEventListener('click', addBookmark);
         list.addEventListener('click', openPopUp);
-        downloads.addEventListener('click', openDownloads);
-        history.addEventListener('click', openHistory);
+        downloads.addEventListener('click', function (e) { openMatuiPage('downloads') });
+        history.addEventListener('click', function (e) { openMatuiPage('history') });
         printer.addEventListener('click', printView);
         zoomIn.addEventListener('click', zoomInView);
         zoomOut.addEventListener('click', zoomOutView);
@@ -437,12 +464,12 @@ Bookmark.prototype.ELEMENT = function () {
         contCopy.addEventListener('click', contCopyView);
         contPaste.addEventListener('click', contPasteView);
         dev.addEventListener('click', handleDevtools);
-        settings.addEventListener('click', openSettings);
-        feedback.addEventListener('click', openFeedback);
-        about.addEventListener('click', openAbout);
+        settings.addEventListener('click', function (e) { openMatuiPage('settings') });
+        feedback.addEventListener('click', function (e) { openMatuiPage('feedback') });
+        about.addEventListener('click', function (e) { openMatuiPage('about') });
         quit.addEventListener("click", closeMatui);
         popup.addEventListener('click', handleUrl);
-        faveManage.addEventListener('click', openBookmarks);
+        faveManage.addEventListener('click', function (e) { openMatuiPage('bookmarks') });
         viewOverlay.addEventListener('click', handleOverlay);
     };
     document.onreadystatechange = function () {

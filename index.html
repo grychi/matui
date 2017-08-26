@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <title>Matui Browser</title>
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/main.min.css">
   <link rel="stylesheet" href="css/all.css">
   <!--
   <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
@@ -35,6 +35,9 @@
     <div id="omnibox">
       <input type="text" id="url" spellcheck="false">
       <div id="viewTitle"></div>
+      <div id="suggestions">
+        <div class="suggestionItem" style="font-style: italic;"> Type to search or enter an address </div>
+      </div>
     </div>
     <div id="tabs">
       <div id="newTab">
@@ -188,7 +191,6 @@
     </div>
   </div>
 
-  <div id="suggestions"></div>
   <div id="permissions"></div>
 
   <div id="fave-popup" data-state="closed">

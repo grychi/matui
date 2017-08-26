@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../css/all.css">
+    <link rel="stylesheet" href="../css/feedback.css">
+    <script type="text/javascript" src="../js/feedback.js"></script>
     <title>Feedback</title>
 </head>
 
@@ -13,6 +15,31 @@
         <h1>Feedback</h1>
     </div>
     <div id="matCont">
+        <div class="matCard">
+            <b> Send us feedback </b>
+            <div class="matDiv"></div>
+            Help make Matui even better! We value any sort of feedback. Please fill out the form below to help us learn what you like
+            and dislike so we can futher improve Matui. You may also include details about any bugs you have found or features
+            you would like to see. Please note that all fields are required so that we can properly address and reply appropriately.
+            Don't worry, we promise to not share your identity.
+            <div class="matDiv"></div>
+            <form id="fbForm" method="POST" action="https://script.google.com/macros/s/AKfycbyMGSBHVxAGoKPhXVBb6D4DEab2ZvHABnrpFjsgfpN-0hxgdFq2/exec">
+                <input type="text" name="cName" placeholder="Name" maxlength="35" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    required>
+                <br>
+                <input type="email" name="cEmail" placeholder="E-mail" maxlength="45" autocorrect="off" autocapitalize="off" spellcheck="false"
+                    required>
+                <textarea id="fbText" name="cMessage" placeholder="Let us know what you think" required></textarea>
+                <input type="submit" value="submit">
+            </form>
+            <div id="fbSent">
+                <b>Thanks!</b>
+                <div class="matDiv"></div>
+                We appreciate you taking the time to give us feedback! Your input will be taken into consideration.
+                <br>
+                <i id="thumb" class="material-icons">thumb_up</i>
+            </div>
+        </div>
     </div>
 </body>
 
