@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width">
   <title>Matui Browser</title>
-  <link rel="stylesheet" href="css/main.min.css">
+  <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/all.css">
   <!--
   <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">
@@ -85,7 +85,7 @@
     <div id="block" class="menu-single-item">
       <i class="material-icons">security</i>
       <!--<i class="material-icons">warning</i>-->
-      <div class="menu-description">Protection</div>
+      <div class="menu-description">Privacy & Security</div>
     </div>
 
     <div class="menu-break"></div>
@@ -186,10 +186,10 @@
       <i class="material-icons">power_settings_new</i>
       <div class="menu-description">Exit</div>
     </div>
-
   </div>
 
   <div id="suggestions"></div>
+  <div id="permissions"></div>
 
   <div id="fave-popup" data-state="closed">
     <div id="bmarks"></div>
@@ -198,6 +198,8 @@
       <!--<i class="material-icons">cancel</i>-->
     </div>
   </div>
+
+  <div id="viewOverlay"></div>
 
   <script>
     require('./renderer.js')

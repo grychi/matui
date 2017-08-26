@@ -128,6 +128,7 @@ body {
 
 #navigation, #navigation *, #browser-menu, #browser-menu * {
     user-select: none;
+    transition: all 0.2s;
 }
 #navigation * {
     -webkit-app-region: no-drag;
@@ -246,6 +247,7 @@ body {
 #navigation #window-control {
     margin-top: -0.2em;
     float: right;
+    transition: none;
 }
 
 #views {
@@ -336,6 +338,9 @@ webview {
     border-bottom: solid 1px var(--quaternary-color);
     box-shadow: 0 4px 8px -0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
+#permissions {
+    display: none;
+}
 
 #fave-popup {
     display: none;
@@ -386,4 +391,13 @@ webview {
 }
 #fave-popup #fave-manage:hover {
     background-color: var(--quaternary-color);
+}
+
+#viewOverlay {
+    display: none;
+    position: fixed;
+    background-color: transparent;
+    opacity: 0;
+    height: calc(100% - 2.8em);
+    width: 100%;
 }

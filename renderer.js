@@ -74,17 +74,19 @@ Bookmark.prototype.ELEMENT = function () {
             feedback = ById('feedback'),
             about = ById('about'),
             quit = ById('exit'),
+            suggestions = ById('suggestions'),
+            permissions = ById('permissions'),
             popup = ById('fave-popup'),
             bmarks = ById('bmarks'),
             faveManage = ById('fave-manage'),
             views = ById('views'),
-            view = ById(currentView);
+            view = ById(currentView),
+            viewOverlay = ById('viewOverlay');
 
         function closeMatui() {
             const window = remote.getCurrentWindow();
             window.close();
         }
-
         function newView(how) {
             if (typeof how != 'string') {
                 how = matuiDir + 'new.html';
@@ -322,7 +324,6 @@ Bookmark.prototype.ELEMENT = function () {
                 newView(event.target.parentElement.href);
             }
         }
-
         function toggleTheme(e) {
             let state = theme.getAttribute('data-state');
             if (state === 'light') {
@@ -335,7 +336,6 @@ Bookmark.prototype.ELEMENT = function () {
                 theme.setAttribute('data-state', 'light');
             }
         }
-
         function handleDevtools() {
             if (view.isDevToolsOpened()) {
                 view.closeDevTools();
@@ -343,7 +343,6 @@ Bookmark.prototype.ELEMENT = function () {
                 view.openDevTools();
             }
         }
-
         function updateNav(event) {
             matuiDir = matuiDir.split('\\').join('/');
             if (view.src.includes(matuiDir)) {
@@ -363,6 +362,9 @@ Bookmark.prototype.ELEMENT = function () {
             }
             document.title = currentTitle;
             viewTitle.innerHTML = currentTitle;
+        }
+        function handleOverlay() {
+            console.log('overlay-clicked');
         }
 
         //should find matui://
@@ -441,6 +443,7 @@ Bookmark.prototype.ELEMENT = function () {
         quit.addEventListener("click", closeMatui);
         popup.addEventListener('click', handleUrl);
         faveManage.addEventListener('click', openBookmarks);
+        viewOverlay.addEventListener('click', handleOverlay);
     };
     document.onreadystatechange = function () {
         if (document.readyState == "complete") {

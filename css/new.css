@@ -6,16 +6,42 @@
     font-size: 800%;
 }
 #date {
-    font-size: 200%;
+    font-size: 250%;
 }
 #message {
     font-size: 150%;
 }
+#time, #date, #message {
+    width: 100%;
+}
+#notes {
+    height: 8em;
+}
+#dateTime, #notes {
+    float: right;
+}
+#visited, #bmarks {
+    float: left;
+}
+.matCard {
+    width: calc(50% - 3em);
+    transition: all 0.5s;
+}
+.matCard:last-of-type {
+    margin-bottom: 2em;
+}
 textarea {
     margin: 0;
     padding: 0.5em;
-    height: 100%;
+    height: calc(100% - 1em);
     width: calc(100% - 1em);
     resize: none;
     font-size: 1em;
+    border: none;
+    outline: none;
+}
+@media screen and (max-width: 80em),screen\9 {
+    .matCard {
+        width: calc(100% - 3em);
+    }
 }

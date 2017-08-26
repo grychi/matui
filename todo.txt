@@ -21,12 +21,6 @@ loading from user data
 - theme (light/dark)
 - set zoom
 
-protection 
-- block ads
-- block trackers
-- block all pop-ups
-- block all scripts
-
 fix
 - empty favicon
 - draggable tabs

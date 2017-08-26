@@ -47,6 +47,5 @@ function nextSlide() {
 }
 function autoSlide() {
     nextSlide();
-    console.log("lol");
     slideTimer = setTimeout(autoSlide, 5000);
 }
