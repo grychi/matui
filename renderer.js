@@ -17,6 +17,8 @@ var Bookmark = function (id, url, faviconUrl, title) {
     this.title = title;
 };
 
+var homeURL = 'https://www.google.com/';
+
 //needs to load from user setings
 var currentZoom = 6;
 var zooms = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300];
@@ -28,6 +30,7 @@ var listViews = [];
 var searchEngines = ['https://www.google.com/search?&q=', 'https://www.bing.com/search?q=', 'https://www.ecosia.org/search?q=', 'https://duckduckgo.com/?q=', 'http://www.wolframalpha.com/input/?i=', 'https://search.aol.com/aol/search?q='];
 var searchAPI = ['https://api.bing.com/osjson.aspx?query=', 'http://api.duckduckgo.com/?q= INSERT_QUERY &format=json'];
 var searchTimer;
+var prevSearch = '';
 
 Bookmark.prototype.ELEMENT = function () {
     var a_tag = document.createElement('a');
@@ -215,7 +218,7 @@ Bookmark.prototype.ELEMENT = function () {
         }
         //needs load from settings
         function goHomeView() {
-            view.loadURL('https://www.google.com/');
+            view.loadURL(homeURL);
         }
         function printView() {
             view.print();
@@ -260,10 +263,20 @@ Bookmark.prototype.ELEMENT = function () {
                 }
                 //todo: fix criterias
                 else if (!val.includes('.') || val.includes(' ')) {
+                    val = encodeURIComponent(val);
                     view.loadURL(searchEngines[0] + val);
                 }
                 else {
                     view.loadURL('http://' + val);
+                }
+                suggestions.style.display = 'none';
+                viewOverlay.style.display = 'none';
+            }
+            else if (event.keyCode === 40) {
+                omni.blur();
+                var sugItems = document.getElementsByClassName('suggestionItem');
+                if (sugItems.length > 0) {
+                    sugItems[0].focus();
                 }
             }
         }
@@ -379,9 +392,11 @@ Bookmark.prototype.ELEMENT = function () {
             suggestions.style.display = 'none';
             viewOverlay.style.display = 'none';
         }
-        function handleSuggests() {
+        function handleSuggests(e) {
             clearTimeout(searchTimer);
-            searchTimer = setTimeout(executeQuery, 500);
+            if (omni.value.trim() != prevSearch) {
+                searchTimer = setTimeout(executeQuery, 500);
+            }
         }
         function showSuggestionItem(item) {
             var suggestionItem = document.createElement('div');
@@ -394,24 +409,24 @@ Bookmark.prototype.ELEMENT = function () {
         }
         function executeQuery() {
             var q = omni.value.trim();
+            prevSearch = q;
             const protocol = require('url').parse(q).protocol;
             let matuiProtocol = q.slice(0, 8).toLowerCase();
             if (q == "" || protocol === 'http:' || protocol === 'https:' || matuiProtocol === 'matui://') {
                 suggestions.innerHTML = '<div class="suggestionItem" style="font-style: italic;"> Type to search or enter an address </div>';
                 return;
             }
+            q = encodeURIComponent(q);
             suggestions.innerHTML = '';
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     xmlhttpResults = JSON.parse(this.responseText);
                     if (xmlhttpResults[0]) {
-                        var firstItem = xmlhttpResults[1][0];
-                        var secondItem = xmlhttpResults[1][1];
-                        var thirdItem = xmlhttpResults[1][2];
-                        showSuggestionItem(firstItem);
-                        showSuggestionItem(secondItem);
-                        showSuggestionItem(thirdItem);
+                        for (var i = 0; i < xmlhttpResults[1].length && i < 3; i++) {
+                            var itemToAdd = xmlhttpResults[1][i];
+                            showSuggestionItem(itemToAdd);
+                        }
                     }
                 }
             };
@@ -423,6 +438,29 @@ Bookmark.prototype.ELEMENT = function () {
                 let val = this.innerHTML;
                 view.loadURL(searchEngines[0] + val);
                 suggestions.style.display = 'none';
+                viewOverlay.style.display = 'none';
+            }
+            //keyup down
+            else if (e.type == 'keyup' && e.keyCode == 40) {
+                focusSugItem('next');
+            }
+            else if (e.type == 'keyup' && e.keyCode == 38) {
+                focusSugItem('prev');
+            }
+        }
+        function focusSugItem(how = 'next') {
+            var sugItems = document.getElementsByClassName('suggestionItem');
+            var i;
+            for (i = 0; i < sugItems.length && sugItems[i] != document.activeElement; i++) { }
+            if (how == 'next' && ++i < sugItems.length) {
+                document.activeElement.blur();
+                console.log(sugItems[i]);
+                sugItems[i].focus();
+            }
+            else if (how == 'prev' && --i >= 0) {
+                document.activeElement.blur();
+                console.log(sugItems[i]);
+                sugItems[i].focus();
             }
         }
 
@@ -431,6 +469,8 @@ Bookmark.prototype.ELEMENT = function () {
             toggleBrowserMenu();
             switch (which) {
                 case 'bookmarks':
+                    var menu = document.getElementById("browser-menu");
+                    menu.style.display = "none";
                     newView(matuiDir + 'bookmarks.html');
                     break;
                 case 'downloads':
@@ -454,7 +494,7 @@ Bookmark.prototype.ELEMENT = function () {
         }
 
         //load from user settings
-        newView("https://www.google.com/");
+        newView(homeURL);
         minBtn.addEventListener("click", function (e) {
             const window = remote.getCurrentWindow();
             window.minimize();

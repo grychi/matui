@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="../css/all.css">
+    <link rel="stylesheet" href="../css/settings.css">
     <title>Settings</title>
 </head>
 
@@ -14,50 +15,143 @@
     </div>
     <div id="matCont">
         <div class="matCard">
+            <b> Important notice </b>
+            <div class="matDiv"></div>
+            This page is incomplete and is still currently in developement. There is limited or no functionality as of now, and what
+            you see is only a preview of the user interface. Any activity or changes will not be saved until the removal
+            of this notice. Thank you for your patience.
+        </div>
+        <div class="matCard">
             <b> Quick Access </b>
             <div class="matDiv"></div>
-            Forward
-            <br> Reload
-            <br> Home
-            <br> Bookmark
+            <div class="matTile">
+                <div class="matTileIcon"> <i class="material-icons">arrow_forward</i> </div>
+                <div class="matTileDesc"> Forward </div>
+            </div>
+            <div class="matTile">
+                <div class="matTileIcon"> <i class="material-icons">refresh</i> </div>
+                <div class="matTileDesc"> Reload </div>
+            </div>
+            <div class="matTile">
+                <div class="matTileIcon"> <i class="material-icons">home</i> </div>
+                <div class="matTileDesc"> Home </div>
+            </div>
+            <div class="matTile">
+                <div class="matTileIcon"> <i class="material-icons">star</i> </div>
+                <div class="matTileDesc"> Bookmark </div>
+            </div>
+            <div class="matDiv"></div>
+            Drag to add or remove tile <br>
+            <div class="matTile">
+                <div class="matTileIcon"> <i class="material-icons">photo_camera</i> </div>
+                <div class="matTileDesc"> Screenshot </div>
+            </div>
+            <div class="matTile">
+                <div class="matTileIcon"> <i class="material-icons">note_add</i> </div>
+                <div class="matTileDesc"> Create note </div>
+            </div>
+            <div class="matTile">
+                <div class="matTileIcon"> <i class="material-icons">share</i> </div>
+                <div class="matTileDesc"> Share </div>
+            </div>
         </div>
         <div class="matCard">
             <b> Appearance </b>
             <div class="matDiv"></div>
-            Light / Dark theme
-            <br> Adaptive theme
-            <br> Custom theme
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">brightness_5</i> </div>
+                <div class="matSettingsMiddle"> Light / Dark theme </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">opacity</i> </div>
+                <div class="matSettingsMiddle"> Adaptive theme </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">settings_applications</i> </div>
+                <div class="matSettingsMiddle"> Custom theme </div>
+            </div>
         </div>
         <div class="matCard">
             <b> Privacy & Security </b>
             <div class="matDiv"></div>
-            Block ads
-            <br> Block trackers
-            <br> Block all pop-ups
-            <br> Block all scripts
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">check_box</i> </div>
+                <div class="matSettingsMiddle"> Block ads </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">check_box</i> </div>
+                <div class="matSettingsMiddle"> Block trackers </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">check_box_outline_blank</i> </div>
+                <div class="matSettingsMiddle"> Block all pop-ups </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">check_box_outline_blank</i> </div>
+                <div class="matSettingsMiddle"> Block all scripts </div>
+            </div>
         </div>
         <div class="matCard">
             <b> Browser </b>
             <div class="matDiv"></div>
-            Set default browser
-            <br> Set default download directory
-            <br> Set home page
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">check_box_outline_blank</i> </div>
+                <div class="matSettingsMiddle"> Set as default browser </div>
+            </div>
+            <div class="matDiv"></div>
+            <div class="matSettingsItem">
+                <div class="matSettingsMiddle"> Set default download directory </div>
+                <div class="matSettingsRight"> <input type="text" value="~/Downloads/"> </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsMiddle"> Set home page </div>
+                <div class="matSettingsRight"> <input type="text" value="https://www.google.com/"> </div>
+            </div>
         </div>
         <div class="matCard">
             <b> Startup </b>
             <div class="matDiv"></div>
-            New Tab
-            <br> Home page
-            <br> Continue previous session
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">radio_button_unchecked</i> </div>
+                <div class="matSettingsMiddle"> New Tab </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">radio_button_checked</i> </div>
+                <div class="matSettingsMiddle"> Home page </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">radio_button_unchecked</i> </div>
+                <div class="matSettingsMiddle"> Continue previous session </div>
+            </div>
         </div>
         <div class="matCard">
             <b> Search </b>
             <div class="matDiv"></div>
-            Set search engine
-            <br> Show suggestions
-            <br> Search bookmarks
-            <br> Search history
-            <br> Search downloads
+            <div class="matSettingsItem">
+                <div class="matSettingsMiddle"> Set search engine </div>
+                <div class="matSettingsRight">
+                    <select>
+                        <option value="google"> Google </option>
+                    </select>
+                </div>
+            </div>
+            <div class="matDiv"></div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">check_box</i> </div>
+                <div class="matSettingsMiddle"> Show suggestions </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">check_box</i> </div>
+                <div class="matSettingsMiddle"> Search bookmarks </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">check_box</i> </div>
+                <div class="matSettingsMiddle"> Search history </div>
+            </div>
+            <div class="matSettingsItem">
+                <div class="matSettingsLeft"> <i class="material-icons">check_box</i> </div>
+                <div class="matSettingsMiddle"> Search downloads </div>
+            </div>
         </div>
         <div class="matCard">
             <b> Shortcuts </b>

@@ -1,0 +1,55 @@
+* {
+    user-select: none;
+    cursor: default;
+}
+.matTile {
+    height: 4em;
+    width: 4em;
+    padding: 0.2em;
+    margin: 0.2em;
+    border-radius: 0.2em;
+    text-align: center;
+    overflow: hidden;
+    display: inline-block;
+}
+.matTile, .matTile * {
+    cursor: move;
+}
+.matTile:hover {
+    background-color: var(--quaternary-color);
+}
+.matTileIcon {
+    height: 2.5em;
+}
+.matTileIcon i {
+    font-size: 1.6em;
+    line-height: 2;
+}
+.matTileDesc {
+    font-size: 0.8em;
+}
+
+.matSettingsItem {
+    margin: 0.2em 0;
+    position: relative;
+}
+.matSettingsLeft {
+    position: absolute;
+}
+.matSettingsMiddle {
+    margin-left: 2em;
+}
+.matSettingsRight {
+    position: absolute;
+    right: 1em;
+    top: 0;
+}
+input, select {
+    width: 12em;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid var(--quaternary-color);
+}
+input:focus, input:active, select:focus, select:active {
+    border-bottom: 2px solid var(--primary-color);
+}

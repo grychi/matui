@@ -17,7 +17,7 @@
 #notes {
     height: 8em;
 }
-#dateTime, #notes {
+#notice, #dateTime, #notes {
     float: right;
 }
 #visited, #bmarks {
