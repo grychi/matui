@@ -32,11 +32,6 @@ $ npm start
 
 ```
 
-## Feedback
-
-Please provide feedback here (link).
-
-
 ## License
 
 MIT License
