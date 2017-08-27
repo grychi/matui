@@ -24,7 +24,10 @@ var zooms = [25, 33, 50, 67, 75, 90, 100, 110, 125, 150, 175, 200, 250, 300];
 var currentView;
 var listViews = [];
 
-var searchAPI = ['https://api.bing.com/osjson.aspx?query=', 'http://api.duckduckgo.com/?q=xyz&format=json'];
+//should change to json file
+var searchEngines = ['https://www.google.com/search?&q=', 'https://www.bing.com/search?q=', 'https://www.ecosia.org/search?q=', 'https://duckduckgo.com/?q=', 'http://www.wolframalpha.com/input/?i=', 'https://search.aol.com/aol/search?q='];
+var searchAPI = ['https://api.bing.com/osjson.aspx?query=', 'http://api.duckduckgo.com/?q= INSERT_QUERY &format=json'];
+var searchTimer;
 
 Bookmark.prototype.ELEMENT = function () {
     var a_tag = document.createElement('a');
@@ -83,7 +86,8 @@ Bookmark.prototype.ELEMENT = function () {
             faveManage = ById('fave-manage'),
             views = ById('views'),
             view = ById(currentView),
-            viewOverlay = ById('viewOverlay');
+            viewOverlay = ById('viewOverlay'),
+            cMenu = ById('contextMenu');
 
         function closeMatui() {
             const window = remote.getCurrentWindow();
@@ -189,7 +193,7 @@ Bookmark.prototype.ELEMENT = function () {
                 updateNav();
             }
         }
-
+        //might need data-state
         function toggleBrowserMenu() {
             var menu = document.getElementById("browser-menu");
             if (menu.style.display == "none") {
@@ -243,8 +247,6 @@ Bookmark.prototype.ELEMENT = function () {
             view.pasteAndMatchStyle();
         }
         function updateURL(event) {
-            //should change to json file
-            var searchEngines = ['https://www.google.com/search?&q=', 'https://www.bing.com/search?q=', 'https://www.ecosia.org/search?q=', 'https://duckduckgo.com/?q=', 'http://www.wolframalpha.com/input/?i=', 'https://search.aol.com/aol/search?q='];
             if (event.keyCode === 13) {
                 omni.blur();
                 let val = omni.value.trim();
@@ -268,6 +270,8 @@ Bookmark.prototype.ELEMENT = function () {
         function handleOmni(e) {
             omni.focus();
             omni.select();
+            suggestions.style.display = 'block';
+            useOverlay();
         }
 
         function addBookmark() {
@@ -282,8 +286,10 @@ Bookmark.prototype.ELEMENT = function () {
             });
         }
         function openPopUp(event) {
+            toggleBrowserMenu();
             let state = popup.getAttribute('data-state');
             if (state === 'closed') {
+                useOverlay();
                 bmarks.innerHTML = '';
                 jsonfile.readFile(bookmarks, function (err, obj) {
                     if (obj.length !== 0) {
@@ -302,7 +308,7 @@ Bookmark.prototype.ELEMENT = function () {
                         }
                     }
                     popup.style.display = 'block';
-                    popup.setAttribute('data-state', 'open');
+                    popup.setAttribute('data-state', 'opened');
                 });
             } else {
                 popup.style.display = 'none';
@@ -347,6 +353,7 @@ Bookmark.prototype.ELEMENT = function () {
                     omni.value = view.src;
                 }
             }
+            suggestions.innerHTML = '<div class="suggestionItem" style="font-style: italic;"> Type to search or enter an address </div>';
         }
         function updateTitle(e) {
             var currentTitle;
@@ -359,18 +366,38 @@ Bookmark.prototype.ELEMENT = function () {
             document.title = currentTitle;
             viewTitle.innerHTML = currentTitle;
         }
-        function handleOverlay() {
-            console.log('overlay-clicked');
+        // Overlay functions needs substitute or fix
+        function useOverlay() {
+            viewOverlay.style.display = 'block';
         }
-
-        /* in the works */
+        function handleOverlay() {
+            if (popup.getAttribute('data-state') != 'closed') {
+                openPopUp();
+            }
+            var menu = document.getElementById("browser-menu");
+            menu.style.display = "none";
+            suggestions.style.display = 'none';
+            viewOverlay.style.display = 'none';
+        }
+        function handleSuggests() {
+            clearTimeout(searchTimer);
+            searchTimer = setTimeout(executeQuery, 500);
+        }
         function showSuggestionItem(item) {
-            console.log(item);
+            var suggestionItem = document.createElement('div');
+            suggestionItem.className += 'suggestionItem';
+            suggestionItem.tabIndex = 0;
+            suggestionItem.innerHTML = item;
+            suggestionItem.addEventListener('click', executeSearch);
+            suggestionItem.addEventListener('keyup', executeSearch);
+            suggestions.appendChild(suggestionItem);
         }
         function executeQuery() {
             var q = omni.value.trim();
-            if (q == "") {
-                /* show default */
+            const protocol = require('url').parse(q).protocol;
+            let matuiProtocol = q.slice(0, 8).toLowerCase();
+            if (q == "" || protocol === 'http:' || protocol === 'https:' || matuiProtocol === 'matui://') {
+                suggestions.innerHTML = '<div class="suggestionItem" style="font-style: italic;"> Type to search or enter an address </div>';
                 return;
             }
             suggestions.innerHTML = '';
@@ -378,20 +405,30 @@ Bookmark.prototype.ELEMENT = function () {
             xmlhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     xmlhttpResults = JSON.parse(this.responseText);
-                    if (xmlhttpResults.itemListElement[1]) {
-                        var firstItem = xmlhttpResults.itemListElement[1][0];
-                        var secondItem = xmlhttpResults.itemListElement[1][1];
+                    if (xmlhttpResults[0]) {
+                        var firstItem = xmlhttpResults[1][0];
+                        var secondItem = xmlhttpResults[1][1];
+                        var thirdItem = xmlhttpResults[1][2];
                         showSuggestionItem(firstItem);
-                        showSuggestionItm(secondItem);
+                        showSuggestionItem(secondItem);
+                        showSuggestionItem(thirdItem);
                     }
                 }
             };
             xmlhttp.open('GET', searchAPI[0] + q, true);
             xmlhttp.send();
         }
+        function executeSearch(e) {
+            if (e.type == 'click' || e.type == 'keyup' && e.keyCode == 13) {
+                let val = this.innerHTML;
+                view.loadURL(searchEngines[0] + val);
+                suggestions.style.display = 'none';
+            }
+        }
 
         function openMatuiPage(which) {
             //should find matui:// tab
+            toggleBrowserMenu();
             switch (which) {
                 case 'bookmarks':
                     newView(matuiDir + 'bookmarks.html');
@@ -434,7 +471,8 @@ Bookmark.prototype.ELEMENT = function () {
         menu.addEventListener('click', toggleBrowserMenu);
         newTab.addEventListener('click', newView);
         back.addEventListener('click', backView);
-        omni.addEventListener('keydown', updateURL);
+        omni.addEventListener('keyup', updateURL);
+        omni.addEventListener('keyup', handleSuggests);
         viewTitle.addEventListener('click', handleOmni);
         forward.addEventListener('click', forwardView);
         refresh.addEventListener('click', reloadView);
@@ -471,6 +509,13 @@ Bookmark.prototype.ELEMENT = function () {
         popup.addEventListener('click', handleUrl);
         faveManage.addEventListener('click', function (e) { openMatuiPage('bookmarks') });
         viewOverlay.addEventListener('click', handleOverlay);
+
+        //in progress
+        function openContextMenu() {
+            // cMenu.style.display = 'block';
+            console.log('open-context-menu');
+        }
+        document.addEventListener('contextmenu', openContextMenu);
     };
     document.onreadystatechange = function () {
         if (document.readyState == "complete") {

@@ -345,9 +345,6 @@ webview {
     border-bottom: solid 1px var(--quaternary-color);
     box-shadow: 0 4px 8px -0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
-#omnibox input:focus ~ #suggestions, #omnibox input:active ~ #suggestions {
-    display: block;
-}
 #navigation .suggestionItem {
     cursor: default;
     width: calc(100% - 8em);
@@ -356,8 +353,11 @@ webview {
     padding: 0.2em 4em;
     overflow: hidden;
 }
-.suggestionItem:hover {
+.suggestionItem:hover, .suggestionItem:focus {
     background-color: var(--quaternary-color);
+}
+.suggestionItem:focus {
+    outline: none;
 }
 #permissions {
     display: none;
@@ -421,4 +421,48 @@ webview {
     opacity: 0;
     height: calc(100% - 2.8em);
     width: 100%;
+}
+
+#contextMenu {
+    display: none;
+    position: fixed;
+    min-height: 2em;
+    width: 16em;
+    overflow: hidden;
+    user-select: none;
+    background-color: var(--secondary-color);
+    box-shadow: 0 4px 8px -0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+.contextMenuItem {
+    padding: 0.2em 0.5em;
+    height: 2em;
+    width: calc(100% - 1em);
+    line-height: 2;
+    cursor: default;
+}
+.contextMenuItem:hover, .contextMenuContentItem:hover {
+    background-color: var(--quaternary-color);
+}
+.contextMenuDiv {
+    height: 1px;
+    width: 100%;
+    background-color: var(--quaternary-color);
+    margin: 0.2em 0;
+}
+.contextMenuContentItem {
+    height: 1.5em;
+    width: 1.5em;
+    border-radius: 0.2em;
+    font-size: 1em;
+    display: inline-block;
+    cursor: default;
+    line-height: 0;
+    margin: 0.2em;
+    padding: 0.2em;
+}
+.contextMenuSep {
+    display: inline-block;
+    height: 2em;
+    width: 1px;
+    background-color: var(--quaternary-color);
 }
