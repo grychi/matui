@@ -10,13 +10,6 @@ var path = require('path');
 var uuid = require('uuid');
 var bookmarks = path.join(__dirname, 'bookmarks.json');
 
-var Bookmark = function (id, url, faviconUrl, title) {
-    this.id = id;
-    this.url = url;
-    this.icon = faviconUrl;
-    this.title = title;
-};
-
 var homeURL = 'https://www.google.com/';
 
 //needs to load from user setings
@@ -32,6 +25,11 @@ var searchAPI = ['https://api.bing.com/osjson.aspx?query=', 'http://api.duckduck
 var searchTimer;
 var prevSearch = '';
 
+var Bookmark = function (url, faviconUrl, title) {
+    this.url = url;
+    this.icon = faviconUrl;
+    this.title = title;
+};
 Bookmark.prototype.ELEMENT = function () {
     var a_tag = document.createElement('a');
     a_tag.href = this.url;
@@ -61,7 +59,7 @@ Bookmark.prototype.ELEMENT = function () {
             refresh = ById('refresh'),
             home = ById('home'),
             fave = ById('fave'),
-            private = ById('private'),
+            incognito = ById('private'),
             block = ById('block'),
             list = ById('list'),
             downloads = ById('downloads'),
@@ -101,7 +99,7 @@ Bookmark.prototype.ELEMENT = function () {
                 how = matuiDir + 'new.html';
             }
             //Might need to change
-            var newViewID = uuid.v4();
+            var newViewID = uuid.v1();
             listViews.push(newViewID);
             var newViewHTML = '<webview id="view-' + newViewID + '" class="page" src="' + how + '" useragent="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 matui/1.0.0" autosize="on"></webview>';
             var newTabHTML = `
@@ -156,7 +154,7 @@ Bookmark.prototype.ELEMENT = function () {
             activeTab();
         }
         function activeTab(tabClicked) {
-            if (tabClicked != null || this.id == null) {
+            if (tabClicked != null || this == null) {
                 var activeTabs = document.getElementsByClassName('activeTab');
                 for (var i = 0; i < activeTabs.length; i++) {
                     var unactiveTabID = activeTabs[i].id.substring(4, activeTabs[i].id.length);
@@ -169,7 +167,7 @@ Bookmark.prototype.ELEMENT = function () {
                     activeTabs[i].className = tabClass;
                 }
                 //clicking tab
-                if (this.id != null) {
+                if (this != null) {
                     this.className += ' activeTab';
                     var clickedID = this.id.substring(4, this.id.length);
                     document.getElementById('view-' + clickedID).style.visibility = 'visible';
@@ -291,7 +289,7 @@ Bookmark.prototype.ELEMENT = function () {
             let url = view.src;
             let title = view.getTitle();
             favicon(url).then(function (fav) {
-                let book = new Bookmark(uuid.v1(), url, fav, title);
+                let book = new Bookmark(url, fav, title);
                 jsonfile.readFile(bookmarks, function (err, curr) {
                     curr.push(book);
                     jsonfile.writeFile(bookmarks, curr, function (err) { });
@@ -309,13 +307,12 @@ Bookmark.prototype.ELEMENT = function () {
                         for (var i = 0; i < obj.length; i++) {
                             let url = obj[i].url;
                             let icon = obj[i].icon;
-                            let id = obj[i].id;
                             let title = obj[i].title;
                             if (title.length > 20) {
                                 title = title.substring(0, 20);
                                 title += ' ...';
                             }
-                            let bookmark = new Bookmark(id, url, icon, title);
+                            let bookmark = new Bookmark(url, icon, title);
                             let el = bookmark.ELEMENT();
                             bmarks.appendChild(el);
                         }
@@ -421,7 +418,7 @@ Bookmark.prototype.ELEMENT = function () {
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    xmlhttpResults = JSON.parse(this.responseText);
+                    var xmlhttpResults = JSON.parse(this.responseText);
                     if (xmlhttpResults[0]) {
                         for (var i = 0; i < xmlhttpResults[1].length && i < 3; i++) {
                             var itemToAdd = xmlhttpResults[1][i];
@@ -454,12 +451,10 @@ Bookmark.prototype.ELEMENT = function () {
             for (i = 0; i < sugItems.length && sugItems[i] != document.activeElement; i++) { }
             if (how == 'next' && ++i < sugItems.length) {
                 document.activeElement.blur();
-                console.log(sugItems[i]);
                 sugItems[i].focus();
             }
             else if (how == 'prev' && --i >= 0) {
                 document.activeElement.blur();
-                console.log(sugItems[i]);
                 sugItems[i].focus();
             }
         }

@@ -1,144 +1,120 @@
 [
     {
-        "id": "35d904f0-85fb-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.amazon.com/",
         "icon": "https://www.amazon.com/favicon.ico",
         "title": "Amazon"
     },
     {
-        "id": "350863f0-85fa-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.bing.com/",
         "icon": "https://www.bing.com/favicon.ico",
         "title": "Bing"
     },
     {
-        "id": "a5ef6fa0-85fa-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.buzzfeed.com/?utm_term=.wo9Lyr9EO#.fwLrkGdBP",
         "icon": "https://www.buzzfeed.com/static-assets/img/favicon.5a0c77a8815cfcc67c710199054a55c6.ico",
         "title": "BuzzFeed"
     },
     {
-        "id": "0b13f6c0-85fc-11e7-846a-65c0613b1145",
         "url": "https://www.dropbox.com/",
         "icon": "https://cfl.dropboxstatic.com/static/images/favicon-vflk5FiAC.ico",
         "title": "Dropbox"
     },
     {
-        "id": "dbee9c80-85cc-11e7-8f0d-d9ccfb0199fa",
         "url": "https://www.facebook.com/",
         "icon": "https://static.xx.fbcdn.net/rsrc.php/yV/r/hzMapiNYYpW.ico",
         "title": "Facebook"
     },
     {
-        "id": "594a3350-85fb-11e7-8196-b1cc5fddfe9a",
         "url": "https://github.com/",
         "icon": "https://assets-cdn.github.com/favicon.ico",
         "title": "GitHub"
     },
     {
-        "id": "60641cf0-2219-11e7-8c4f-6741fb298711",
         "url": "https://www.google.nl/?gfe_rd=cr&ei=NYHyWL3wJLLP8Aepz6-wDA&gws_rd=ssl",
         "icon": "https://www.google.nl/images/branding/product/ico/googleg_lodp.ico",
         "title": "Google"
     },
     {
-        "id": "9dbf07f0-85fa-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.instagram.com/?hl=en",
         "icon": "https://www.instagram.com/static/images/ico/favicon-192.png/b407fa101800.png",
         "title": "Instagram"
     },
     {
-        "id": "3c6336b0-85fb-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.linkedin.com/",
         "icon": "https://static.licdn.com/scds/common/u/images/logos/favicons/v1/favicon.ico",
         "title": "LinkedIn"
     },
     {
-        "id": "a655a420-85fd-11e7-bd73-05aa3c8c050b",
         "url": "https://www.messenger.com/login/",
         "icon": "https://static.xx.fbcdn.net/rsrc.php/y7/r/O6n_HQxozp9.ico",
         "title": "Messenger"
     },
     {
-        "id": "547e5360-85fb-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.netflix.com/",
         "icon": "https://assets.nflxext.com/us/ffe/siteui/common/icons/nficon2016.ico",
         "title": "Netflix"
     },
     {
-        "id": "c2fedee0-8786-11e7-8d3c-c35dfc387d5e",
         "url": "https://www.pandora.com/",
         "icon": "https://www.pandora.com/favicon.ico",
         "title": "Pandora"
     },
     {
-        "id": "a09cd690-8786-11e7-8d3c-c35dfc387d5e",
         "url": "https://www.pinterest.com/",
         "icon": "https://s.pinimg.com/webapp/style/images/favicon-9f8f9adf.png",
         "title": "Pinterest"
     },
     {
-        "id": "a4f952e0-8786-11e7-8d3c-c35dfc387d5e",
         "url": "https://www.quora.com/",
         "icon": "https://qsf.ec.quoracdn.net/-3-images.favicon.ico-26-3f34badcb59c8f6c.ico",
         "title": "Quora"
     },
     {
-        "id": "10d353e0-85fb-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.reddit.com/",
         "icon": "https://www.redditstatic.com/icon.png",
         "title": "reddit"
     },
     {
-        "id": "b17ee3e0-8786-11e7-8d3c-c35dfc387d5e",
         "url": "https://soundcloud.com/",
         "icon": "https://a-v2.sndcdn.com/assets/images/sc-icons/favicon-2cadd14b.ico",
         "title": "SoundCloud"
     },
     {
-        "id": "b63b0c60-8786-11e7-8d3c-c35dfc387d5e",
         "url": "https://www.spotify.com/us/",
         "icon": "https://www.scdn.co/i/_global/favicon.png",
         "title": "Spotify"
     },
     {
-        "id": "1e1b4a80-85fb-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.tumblr.com/",
         "icon": "https://assets.tumblr.com/images/favicons/favicon.ico?_v=1d4ae305d6aa9e9593bfd2c4c586532e",
         "title": "Tumblr"
     },
     {
-        "id": "06b41480-85fb-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.twitch.tv/",
         "icon": "https://www.twitch.tv/favicon.ico",
         "title": "Twitch"
     },
     {
-        "id": "9566a5e0-85fa-11e7-8196-b1cc5fddfe9a",
         "url": "https://twitter.com/?lang=en",
         "icon": "https://abs.twimg.com/favicons/favicon.ico",
         "title": "Twitter"
     },
     {
-        "id": "fccf0af0-879a-11e7-b279-f37f96b9e712",
         "url": "https://vimeo.com/",
         "icon": "https://f.vimeocdn.com/images_v6/favicon.ico",
         "title": "Vimeo"
     },
     {
-        "id": "2a281e80-85fa-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.wikipedia.org/",
         "icon": "https://www.wikipedia.org/static/favicon/wikipedia.ico",
         "title": "Wikipedia"
     },
     {
-        "id": "4d65e0d0-85fa-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.yahoo.com/",
         "icon": "https://www.yahoo.com/favicon.ico",
         "title": "Yahoo"
     },
     {
-        "id": "78a46f50-85fa-11e7-8196-b1cc5fddfe9a",
         "url": "https://www.youtube.com/",
         "icon": "https://s.ytimg.com/yts/img/favicon-vflz7uhzw.ico",
         "title": "YouTube"
