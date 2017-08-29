@@ -153,47 +153,58 @@ Bookmark.prototype.ELEMENT = function () {
             });
             activeTab();
         }
-        function activeTab(tabClicked) {
-            if (tabClicked != null || this == null) {
-                var activeTabs = document.getElementsByClassName('activeTab');
-                for (var i = 0; i < activeTabs.length; i++) {
-                    var unactiveTabID = activeTabs[i].id.substring(4, activeTabs[i].id.length);
-                    var unactiveView = document.getElementById('view-' + unactiveTabID);
-                    unactiveView.style.visibility = "hidden";
-                    unactiveView.removeEventListener('did-finish-load', updateNav);
-                    unactiveView.removeEventListener('did-frame-finish-load', updateNav);
-                    unactiveView.removeEventListener('page-title-updated', updateTitle);
-                    var tabClass = activeTabs[i].className.substring(0, activeTabs[i].className.length - 10);
-                    activeTabs[i].className = tabClass;
-                }
-                //clicking tab
-                if (this != null) {
-                    this.className += ' activeTab';
-                    var clickedID = this.id.substring(4, this.id.length);
-                    document.getElementById('view-' + clickedID).style.visibility = 'visible';
-                    currentView = 'view-' + clickedID;
-                    view = ById(currentView);
-                    updateTitle();
-                }
-                //opening new tab
-                else if (tabClicked == null) {
-                    document.getElementById('tab-' + listViews[listViews.length - 1]).className += ' activeTab';
-                }
-                //closing active tab
-                else if (activeTabs.length == 0) {
-                    let prevTabID = listViews[listViews.length - 1];
-                    document.getElementById('tab-' + prevTabID).className += ' activeTab';
-                    document.getElementById('view-' + prevTabID).style.visibility = 'visible';
-                    currentView = 'view-' + prevTabID;
-                    view = ById(currentView);
-                    updateTitle();
-                }
-                view.addEventListener('did-finish-load', updateNav);
-                view.addEventListener('did-frame-finish-load', updateNav);
-                view.addEventListener('page-title-updated', updateTitle);
-                updateNav();
+        function activeTab(tabAct) {
+            var activeTabs = document.getElementsByClassName('activeTab');
+            if (tabAct != null && this.id == null && activeTabs.length != 0) {
+                return;
             }
+            // clears active tab
+            for (var i = 0; i < activeTabs.length; i++) {
+                var unactiveTabID = activeTabs[i].id.substring(4, activeTabs[i].id.length);
+                var unactiveView = document.getElementById('view-' + unactiveTabID);
+                unactiveView.style.visibility = "hidden";
+                unactiveView.removeEventListener('did-finish-load', updateNav);
+                unactiveView.removeEventListener('did-frame-finish-load', updateNav);
+                unactiveView.removeEventListener('page-title-updated', updateTitle);
+                var tabClass = activeTabs[i].className.substring(0, activeTabs[i].className.length - 10);
+                activeTabs[i].className = tabClass;
+            }
+            //clicking tab
+            if (this.id != null) {
+                this.className += ' activeTab';
+                var clickedID = this.id.substring(4, this.id.length);
+                document.getElementById('view-' + clickedID).style.visibility = 'visible';
+                currentView = 'view-' + clickedID;
+                view = ById(currentView);
+                updateTitle();
+            }
+            //opening new tab
+            else if (tabAct == null) {
+                document.getElementById('tab-' + listViews[listViews.length - 1]).className += ' activeTab';
+            }
+            //focusing tabAct
+            else if (tabAct != null) {
+                document.getElementById('tab-' + tabAct).className += ' activeTab';
+                document.getElementById('view-' + tabAct).style.visibility = 'visible';
+                currentView = 'view-' + tabAct;
+                view = ById(currentView);
+                updateTitle();
+            }
+            //make last tab active
+            else {
+                let prevTabID = listViews[listViews.length - 1];
+                document.getElementById('tab-' + prevTabID).className += ' activeTab';
+                document.getElementById('view-' + prevTabID).style.visibility = 'visible';
+                currentView = 'view-' + prevTabID;
+                view = ById(currentView);
+                updateTitle();
+            }
+            view.addEventListener('did-finish-load', updateNav);
+            view.addEventListener('did-frame-finish-load', updateNav);
+            view.addEventListener('page-title-updated', updateTitle);
+            updateNav();
         }
+
         //might need data-state
         function toggleBrowserMenu() {
             var menu = document.getElementById("browser-menu");
@@ -545,12 +556,23 @@ Bookmark.prototype.ELEMENT = function () {
         faveManage.addEventListener('click', function (e) { openMatuiPage('bookmarks') });
         viewOverlay.addEventListener('click', handleOverlay);
 
-        //in progress
-        function openContextMenu() {
-            // cMenu.style.display = 'block';
-            console.log('open-context-menu');
+        function openContextMenu(e) {
+            useOverlay();
+            cMenu.style.display = 'block';
+            cMenu.style.top = e.clientY + 'px';
+            cMenu.style.left = e.clientX + 'px';
+        }
+        function hideContextMenu(e) {
+            var elTar = e.target;
+            while (elTar != document.body && elTar != cMenu) {
+                elTar = elTar.parentElement;
+            }
+            if (elTar != cMenu) {
+                cMenu.style.display = 'none';
+            }
         }
         document.addEventListener('contextmenu', openContextMenu);
+        document.addEventListener('click', hideContextMenu);
     };
     document.onreadystatechange = function () {
         if (document.readyState == "complete") {
