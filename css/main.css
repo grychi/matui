@@ -226,7 +226,7 @@ body {
     border-radius: 0.5em;
     background-color: var(--quaternary-color);
 }
-.activeTab .closeTab {
+.closeTab {
     background-color: var(--secondary-color);
 }
 .closeTab:hover {
@@ -245,7 +245,9 @@ body {
     margin: 0;
 }
 .activeTab {
+    top: -1px;
     background-color: var(--quaternary-color);
+    box-shadow: 0 4px 8px -0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 #navigation #window-control {
     margin-top: -0.2em;
